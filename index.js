@@ -17,3 +17,11 @@ app.listen(port, () => {
 
 
 
+//llamadas a los métodos creados en el otro archivo
+
+
+var rape = require("./public/rape-manager/v1/rapeStats.js");
+
+app.get("/api/v1/rape-stats/loadInitialData",rape.getInitialData);
+app.get("/api/v1/rape-stats",rape.getAllData);
+
