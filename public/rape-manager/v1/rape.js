@@ -251,7 +251,7 @@ module.exports.getSingleDataNameYear = (request,response)=>{
                    nameAux = datos[i].country;
                    yearAux = datos[i].year;
                    //filtramos buscando el dato
-                   if(nameAux === country && yearAux === year){
+                   if(nameAux == country && yearAux == year){
                        
                        conjuntoAux.push(datos[i]);
                    }
@@ -277,6 +277,8 @@ module.exports.getSingleDataNameYear = (request,response)=>{
     
     
 };
+
+
 
 
 

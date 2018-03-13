@@ -24,4 +24,6 @@ var rape = require("./public/rape-manager/v1/rape.js");
 
 app.get("/api/v1/rape-stats/loadInitialData",rape.getInitialData);
 app.get("/api/v1/rape-stats",rape.getAllData);
+app.get("/api/v1/rape-stats/:name/:year",rape.getSingleDataNameYear);
+
 
