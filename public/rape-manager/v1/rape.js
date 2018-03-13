@@ -2,8 +2,6 @@ var mongoClient = require("mongodb").MongoClient;
 
 var mongoURL = "mongodb://mjtr:gatete@ds111299.mlab.com:11299/rape-personal-1718";
 var db = null;
-var db2 = null;
-
 
 
 /******CONECTAR CON LA BASE DE DATOS******/
@@ -17,6 +15,7 @@ mongoClient.connect (mongoURL,{native_parser : true }, (error,database)=>{
     }
 
    db = database.db("rape-personal-1718").collection("rape-stats");
+   
    console.log ("la base de datos ha sido conectada con éxito");
 
 });
@@ -211,3 +210,73 @@ module.exports.getAllData = (request,response)=> {
     
     
 };
+
+
+//Get a un recurso en concreto por nombre y año
+
+
+module.exports.getSingleDataNameYear = (request,response)=>{
+
+    //cogemos los datos que pasamos en la url como parámetros    
+   var country = request.params.name; 
+   var year = request.params.year;
+   var conjuntoAux = [];
+   
+   if (!country || !year || isNaN(country) == false || isNaN(year) == true){
+       
+      console.log ("Error al introducir el nombre o el año, section 1 getSingleDataNameYear error");
+      response.sendStatus(400);
+       
+   }
+   
+   if (!db || db == null){
+       
+       console.log("algo pasa con la base de datos, section 2 getSingleDataNameYear error");
+       response.sendStatus(500);
+       
+   }else {
+       
+       
+       db.find({}).toArray(function (error, datos){
+           
+           if(!datos || datos.length == 0 ){
+               console.log("No hay ningún dato en la base de datos");
+               response.sendStatus(404);
+           }else {
+               var nameAux = "";
+               var yearAux = "";
+               
+               for(var i = 0; i< datos.length; i++){
+                   
+                   nameAux = datos[i].country;
+                   yearAux = datos[i].year;
+                   //filtramos buscando el dato
+                   if(nameAux === country && yearAux === year){
+                       
+                       conjuntoAux.push(datos[i]);
+                   }
+                   
+               }
+           }
+           
+           if (conjuntoAux.length === 0){
+               
+               console.log ("el conjunto auxiliar no ha guardado ningún dato, luego no lo ha encontrado");
+               response.sendStatus(404);
+               
+           }else{
+               
+               response.send(conjuntoAux);
+           }
+           
+       });
+       
+   }
+    
+    
+    
+    
+};
+
+
+
