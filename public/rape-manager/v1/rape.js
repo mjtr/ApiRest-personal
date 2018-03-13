@@ -2,12 +2,8 @@ var mongoClient = require("mongodb").MongoClient;
 
 var mongoURL = "mongodb://mjtr:gatete@ds111299.mlab.com:11299/rape-personal-1718";
 var db = null;
+var db2 = null;
 
-//var apikey = "";
-//var limit = null;
-//var offset = null;
-//var from = null;
-//var to = null;
 
 
 /******CONECTAR CON LA BASE DE DATOS******/
@@ -17,11 +13,12 @@ mongoClient.connect (mongoURL,{native_parser : true }, (error,database)=>{
     
       if (error) {
         console.log("No se puede usar la base de datos " + error);
+        process.exit();
     }
 
-    db = database.collection("rape-stats");
-    
-    
+   db = database.db("rape-personal-1718").collection("rape-stats");
+   console.log ("la base de datos ha sido conectada con éxito");
+
 });
 
 module.exports.getInitialData = (request,response)=>{
@@ -29,7 +26,7 @@ module.exports.getInitialData = (request,response)=>{
     
     //Comprueba que la base de datos no esté vacía
 
-        if (db != null) {
+        if (db != null ||db.length != 0) {
             //recorremos la base de datos
             db.find({}).toArray(function(error, conjunto) {
                 if (error) {
