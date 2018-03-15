@@ -54,94 +54,94 @@ module.exports.getInitialData = (request,response)=>{
                         }, {
                             "country": "france",
                             "year": 2009,
-                            "numberOfRape": 10108,
+                            "number-of-rape": 10108,
                             "rate": 16.2,
                             "total-since-two-thousand": 71208
                         }, {
                             "country": "germany",
                             "year": 2010,
-                            "numberOfRape": 7724,
+                            "number-of-rape": 7724,
                             "rate": 9.4,
                             "total-since-two-thousand": 25730
                         }, {
                             "country": "germany",
                             "year": 2005,
-                            "numberOfRape": 8133,
+                            "number-of-rape": 8133,
                             "rate": 9.9 ,
                             "total-since-two-thousand": 12017
                             
                         }, {
                             "country": "belgium",
                             "year": 2006,
-                            "numberOfRape": 3194,
+                            "number-of-rape": 3194,
                             "rate": 30.5,
                             "total-since-two-thousand": 24319
                             
                         }, {
                             "country": "belgium",
                             "year": 2010,
-                            "numberOfRape": 2991,
+                            "number-of-rape": 2991,
                             "rate": 27.9 ,
                             "total-since-two-thousand": 20914
                             
                         }, {
                             "country": "italy",
                             "year": 2004,
-                            "numberOfRape": 3734,
+                            "number-of-rape": 3734,
                             "rate": 6.4,
                             "total-since-two-thousand": 6478
                         }, {
                             "country": "sweden",
                             "year": 2003,
-                            "numberOfRape": 2235,
+                            "number-of-rape": 2235,
                             "rate": 25,
                             "total-since-two-thousand": 2235
                         }, {
                             "country": "sweden",
                             "year": 2010,
-                            "numberOfRape": 5960,
+                            "number-of-rape": 5960,
                             "rate": 63.5,
                             "total-since-two-thousand": 34583
                             
                         }, {
                             "country": "netherlands",
                             "year": 2007,
-                            "numberOfRape": 2095,
+                            "number-of-rape": 2095,
                             "rate": 12.7,
                             "total-since-two-thousand": 10465
                             
                         }, {
                             "country": "netherlands",
                             "year": 2008,
-                            "numberOfRape": 1920,
+                            "number-of-rape": 1920,
                             "rate": 11.6,
                             "total-since-two-thousand": 12385
                             
                         }, {
                             "country": "ukraine",
                             "year": 2009,
-                            "numberOfRape": 758,
+                            "number-of-rape": 758,
                             "rate": 1.7,
                             "total-since-two-thousand": 1048
                             
                         }, {
                             "country": "ukraine",
                             "year": 2003,
-                            "numberOfRape": 1048,
+                            "number-of-rape": 1048,
                             "rate": 2.2 ,
                             "total-since-two-thousand": 6445
                             
                         }, {
                             "country": "portugal",
                             "year": 2008,
-                            "numberOfRape": 392,
+                            "number-of-rape": 392,
                             "rate": 3.7,
                             "total-since-two-thousand": 392
                             
                         }, {
                             "country": "portugal",
                             "year": 2010,
-                            "numberOfRape": 424,
+                            "number-of-rape": 424,
                             "rate": 4,
                             "total-since-two-thousand": 2856
                             
@@ -273,10 +273,78 @@ module.exports.getSingleDataNameYear = (request,response)=>{
        
    }
     
+};
+
+
+
+module.exports.postDenied = (request, response)=>{
+    
+    console.log("hemos hecho un post a un dato en concreto, método no permitido"); 
+    response.sendStatus(405);
     
     
     
 };
+
+module.exports.postDataGroup = (request,response) =>{
+    
+        var parametros = request.body; 
+        console.log ("compruebo ahora que el dato que he cogido no esté vacío");
+        if(!parametros || parametros == null ){
+            
+            response.sendStatus(400);
+            
+        }else {
+            
+            if(chequeaParametro(parametros) == false ){
+                
+                console.log("Bad request, algunos parámetros están mal");
+                response.sendStatus(400);
+            }else{
+                
+                db.find({}).toArray(function(error, datos) {
+                    
+                    datos.push(parametros);
+                    console.log("dato creado correctamente");
+                    
+                });
+                
+            }
+            
+            
+        }
+    
+    
+};
+
+
+var chequeaParametro = function(parametros){
+    
+    var res = true; 
+    
+    if (parametros.country == null || parametros.country == "" ||
+    parametros.year == null || parametros.year == "" ||
+    parametros.number-of-rape == null || parametros.number-of-rape == "" ||
+    parametros.rate == null || parametros.rate == "" ||
+    parametros.total-since-two-thousand == null || parametros.total-since-two-thousand == "" ){
+        
+        console.log("hay alguno datos nulos o vacíos");
+        res= false;
+    }else{
+        
+     if (isNaN(parametros.country) == false || isNaN(parametros.year) == true 
+     || isNaN(parametros.number-of-rape) == true  || isNaN(parametros.rate) == true  
+     || isNaN(parametros.total-since-two-thousand) == true ){
+         console.log("alguno de los parámetros están mal introducidos");
+         res = false;
+     }
+        
+        
+    }
+    
+    return res;
+};
+
 
 
 
