@@ -222,7 +222,7 @@ module.exports.getSingleDataNameYear = (request,response)=>{
    var year = request.params.year;
    var conjuntoAux = [];
    
-   if (!country || !year || isNaN(country) == false || isNaN(year) == true){
+   if (compruebaDatosURL(country,year) == false){
        
       console.log ("Error al introducir el nombre o el año, section 1 getSingleDataNameYear error");
       response.sendStatus(400);
@@ -275,8 +275,9 @@ module.exports.getSingleDataNameYear = (request,response)=>{
     
 };
 
+/***********************POST***************************/
 
-
+// post a un dato en concreto no debe estar permitido
 module.exports.postDenied = (request, response)=>{
     
     console.log("hemos hecho un post a un dato en concreto, método no permitido"); 
@@ -286,6 +287,8 @@ module.exports.postDenied = (request, response)=>{
     
 };
 
+
+//post al grupo completo, deberá crear el dato
 module.exports.postDataGroup = (request,response) =>{
     
         var parametros = request.body; 
@@ -318,6 +321,185 @@ module.exports.postDataGroup = (request,response) =>{
 };
 
 
+
+
+/***********************PUT****************************/
+
+module.export.putDenied = (request, response) => {
+    
+    console.log("no está permitido hace put a un conjunto de datos");
+    response.sendStatus(405);
+};
+
+module.exports.putSingleData = (request,response) => {
+    
+    var pais = request.params.name;
+    var anio = request.params.year;
+    var datoActualizar = request.body;
+    
+    if(compruebaDatosURL(pais,anio) == false){
+        
+        console.log("los datos año o país están mal introducidos");
+        response.sendStatus(400);
+    }else{
+        
+        if(!db ||db == null ){
+            
+            console.log("fallo base de datos en el  put single data, section 1");
+            response.sendStatus(500);
+            
+        }else{
+        
+        if(!datoActualizar|| !datoActualizar.country || !datoActualizar.year || datoActualizar.rate ||
+         !datoActualizar.nomber-of-rape || !datoActualizar.total-since-two-thousand){
+            console.log("Algunos parámetros del dato nuevo que has introducido son incorrectos");
+            response.sendStatus(400);
+        }else{
+        
+        if (pais === datoActualizar.country && parseInt(anio) === parseInt(datoActualizar.year)) {
+            db.update({
+                country: pais,
+                year: anio
+            }, {
+                country: datoActualizar.country,
+                year: datoActualizar.year,
+                number-of-rape: datoActualizar.number-of-rape,
+                rate: datoActualizar.rate,
+                total-since-two-thousand: datoActualizar.total-since-two-thousand
+
+            });
+            res.sendStatus(200); //OK
+
+        }
+        }   
+    }
+    }
+};
+
+
+/***********************DELETE****************************/
+
+module.exports.deleteData = (request,response) => {
+    
+    var name = request.params.name ; 
+    var year = request.params.year;
+    var auxyear = "";
+    var auxname = "";
+    var tamanio = "";
+    
+    if(compruebaDatosURL(year,name) == false){
+        
+        console.log("Al hacer delete los datos de la url no se han puesto correctamente");
+        response.sendStatus(400); 
+    }else{
+        
+        if(!db ||db == null){
+            
+            console.log ("Algo ocurre con la base de datos, error delete single data section 1");
+            response.sendStatus(500);
+            
+        }else{
+            
+            db.find({}).toArray(function(error, datos) {
+                
+                if(error){
+                    console.log("Error section 2 delete single data");
+                    response.sendStatus(500);
+                }else{
+                    
+                    if(!datos || datos.length == 0){
+                        console.log("base de datos interna vacía, error section 3 delete single data");
+                        response.sendStatus(500);
+                        
+                    }else{
+                        tamanio = datos.length;
+                       for( var i = 0; i < datos.length ; i++){
+                           auxname = datos[i].country;
+                           auxyear = datos[i].year;
+                           
+                           if (auxname == name && auxyear == year){
+                               
+                               datos[i].remove;
+                               console.log ("dato eliminado correctamente");
+                           }
+                           
+                        } 
+                       //Se supone que si se ha eliminado un dato no debería tener el mismo tamaño
+                       
+                    if (tamanio == datos.length){
+                        console.log("No se ha podido encontrar el dato a eliminar");
+                        response.sendStatus(404);
+                        
+                    }else{
+                        console.log("Si que se ha eliminado el dato correctamente");
+                        response.sendStatus(200);
+                    }    
+                        
+                    }
+                    
+                }
+                
+                
+            });
+                
+                
+            
+            
+        }
+        
+        
+        
+    } 
+    
+    
+    
+    
+    
+    
+    
+};
+
+module.exports.deleteAll = (request,response)=>{
+    
+    if(!db || db == null ){
+        console.log("Error en la base de datos delete all section 1");
+        response.sendStatus(500);
+    }else{
+        
+    db.find({}).toArray(function(error, datos) {
+     
+       if(error){
+           
+            console.log("Error section 2 delete single data");
+            response.sendStatus(500);
+            }else{
+                    
+                if(!datos || datos.length == 0){
+                    console.log("base de datos interna vacía, error section 3 delete single data");
+                    response.sendStatus(500);
+                        
+                }else{
+                    datos = [];
+                    console.log("datos eliminados correctamente");
+                    response.sendStatus(200);
+                        
+                    }
+                }
+        
+    })  ;  
+    
+        
+        
+    }
+    
+};
+
+
+
+/************MÉTODOS AUXILIARES***********/
+
+
+//Métodos auxiliares
 var chequeaParametro = function(parametros){
     
     var res = true; 
@@ -345,7 +527,15 @@ var chequeaParametro = function(parametros){
     return res;
 };
 
-
+var compruebaDatosURL = function(pais,anio){
+   var res = true;
+    
+    if (!pais || !anio || isNaN(pais) == false || isNaN(anio) == true){
+      res = false;
+       
+   }
+   return res;
+};
 
 
 
