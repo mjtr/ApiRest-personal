@@ -184,7 +184,7 @@ module.exports.getAllData = (request,response)=> {
                 response.sendStatus(500);
             }else{
                 checkdb(data,res);
-             if(!res ){
+             if(res == false){
                     console.log("section 3 all data error");
                     response.sendStatus(500);
                 }else{
