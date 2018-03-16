@@ -466,7 +466,10 @@ module.exports.deleteAll = (request,response)=>{
         response.sendStatus(500);
     }else{
         
-    db.find({}).toArray(function(error, datos) {
+        db.remove();
+        console.log("datos eliminados correctamente");
+        response.sendStatus(200);
+    /*db.find({}).toArray(function(error, datos) {
      
        if(error){
            
@@ -486,7 +489,7 @@ module.exports.deleteAll = (request,response)=>{
                     }
                 }
         
-    })  ;  
+    })  ;  */
     
         
         
