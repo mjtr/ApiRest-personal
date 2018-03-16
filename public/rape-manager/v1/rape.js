@@ -542,17 +542,17 @@ var chequeaParametro = function(parametros){
     
     if (parametros.country == null || parametros.country == "" ||
     parametros.year == null || parametros.year == "" ||
-    parametros.number-of-rape == null || parametros.number-of-rape == "" ||
+    parametros["number-of-rape"] == null || parametros["number-of-rape"] == "" ||
     parametros.rate == null || parametros.rate == "" ||
-    parametros.total-since-two-thousand == null || parametros.total-since-two-thousand == "" ){
+    parametros["total-since-two-thousand"] == null || parametros["total-since-two-thousand"] == "" ){
         
         console.log("hay alguno datos nulos o vacíos");
         res= false;
     }else{
         
      if (isNaN(parametros.country) == false || isNaN(parametros.year) == true 
-     || isNaN(parametros.number-of-rape) == true  || isNaN(parametros.rate) == true  
-     || isNaN(parametros.total-since-two-thousand) == true ){
+     || isNaN(parametros["number-of-rape"]) == true  || isNaN(parametros.rate) == true  
+     || isNaN(parametros["total-since-two-thousand"]) == true ){
          console.log("alguno de los parámetros están mal introducidos");
          res = false;
      }
