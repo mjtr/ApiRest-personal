@@ -37,10 +37,9 @@ module.exports.getInitialData = (request,response)=>{
 
                 
                 /*Comprobamos que el conjunto no esté vacío*/
-                    if (!conjunto || conjunto.length !== 0) { 
+                    if (conjunto.length !== 0) { 
                         
-                        //TODO: añadimos un console log para tener un punto de control.Section 1
-                        console.log("Error en el control section 1");
+                        console.log("la base de datos ya está creada");
                         response.sendStatus(409); //Conflicto,la base de datos ya estaba inicializada
 
                     }
