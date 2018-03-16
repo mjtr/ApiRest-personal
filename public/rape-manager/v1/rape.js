@@ -325,7 +325,7 @@ module.exports.postDataGroup = (request,response) =>{
 
 /***********************PUT****************************/
 
-module.export.putDenied = (request, response) => {
+module.exports.putDenied = (request, response) => {
     
     console.log("no está permitido hace put a un conjunto de datos");
     response.sendStatus(405);
