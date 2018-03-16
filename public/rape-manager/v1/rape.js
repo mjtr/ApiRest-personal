@@ -331,7 +331,7 @@ module.export.putDenied = (request, response) => {
     response.sendStatus(405);
 };
 
-module.exports.putSingleData = (request,response) => {
+/*module.exports.putSingleData = (request,response) => {
     
     var pais = request.params.name;
     var anio = request.params.year;
@@ -374,7 +374,7 @@ module.exports.putSingleData = (request,response) => {
         }   
     }
     }
-};
+};*/
 
 
 /***********************DELETE****************************/
