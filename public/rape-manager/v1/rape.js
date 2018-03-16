@@ -170,39 +170,28 @@ module.exports.getInitialData = (request,response)=>{
 
 
 module.exports.getAllData = (request,response)=> {
+    var res;
     
-    if(!db || db == null || db.length === 0){
-        
-        //TODO: controlar el error base de datos vacía a la hora de hacer el get al conjunto, section 1
-        console.log("la base de datos está vacía, get all data, section 1");
+    checkdb(db,res);
+    
+    if(res == false){
         response.sendStatus(500);
     }else{
-        
-        
+       
         db.find({}).toArray((error,data) => {
             
             if(error){
-                
-                //TODO: error en el section 2 
                 console.log("Error en el section 2 get all data");
                 response.sendStatus(500);
-                
             }else{
-                
-                
-                if(!data || data.length ===0 ){
-                    
-                    //TODO: error en el section 3
+                checkdb(data,res);
+             if(!res ){
                     console.log("section 3 all data error");
+                    response.sendStatus(500);
                 }else{
-                    
-                    
                     response.send(data);
                     
                 }
-                
-                
-                
             }
         });
         
@@ -243,20 +232,9 @@ module.exports.getSingleDataNameYear = (request,response)=>{
                console.log("No hay ningún dato en la base de datos");
                response.sendStatus(404);
            }else {
-               var nameAux = "";
-               var yearAux = "";
+              
+               filtradoNombreAnio(datos,conjuntoAux,country,year);
                
-               for(var i = 0; i< datos.length; i++){
-                   
-                   nameAux = datos[i].country;
-                   yearAux = datos[i].year;
-                   //filtramos buscando el dato
-                   if(nameAux == country && yearAux == year){
-                       
-                       conjuntoAux.push(datos[i]);
-                   }
-                   
-               }
            }
            
            if (conjuntoAux.length === 0){
@@ -274,6 +252,62 @@ module.exports.getSingleDataNameYear = (request,response)=>{
    }
     
 };
+
+
+//GET a un recurso por nombre o anio 
+
+module.exports.getData = (request,response)=>{
+    
+    var parametro = request.params.name;
+    var aux = [];
+    var year = null;
+    
+    if(!parametro || parametro == null){
+        
+        console.log("No has introducido correctamente los datos, get data error section 1");
+        response.sendStatus(400);
+    }else {
+      
+       if(!db || db == null){
+           
+           console.log("Error con la base de datos,get data error section 2 ");
+           response.sendStatus(500);
+            process.exit();
+
+           
+       }else{
+           
+           db.find({}).toArray(function(error, datos) {
+               
+               if(!datos  || datos == null || datos.length == 0){
+                   console.log("Algo pasa con la base de datos interna,error get data section 3");
+                   response.sendStatus(500);
+               }else{
+       
+       
+          filtradoNombreAnio(datos,aux,parametro,year); 
+      
+       if(aux.length == 0){
+                    console.log("no se ha encontrado ningún dato");
+                    response.sendStatus(404);
+                }else{
+                    response.send(aux);
+                    
+                }  
+                
+               }
+             
+           });
+           
+       }
+       
+       
+    }
+    
+    
+};
+
+
 
 /***********************POST***************************/
 
@@ -540,6 +574,44 @@ var compruebaDatosURL = function(pais,anio){
    return res;
 };
 
+var filtradoNombreAnio = function(datos,aux,country,year){
+    
+    if(year == null){
+       if(isNaN(country)){
+       datos.filter((x)=>{
+            return x.country == country;       
+                   
+               }).map((x)=>{
+                   return aux.push(x);
+               }); 
+       }else{
+           datos.filter((x)=>{
+            return x.year == parseInt(country);       
+               }).map((x)=>{
+                   return aux.push(x);
+               });
+       }    
+    }else{
+    datos.filter((x)=>{
+            return x.country == country && x.year == parseInt(year);       
+               }).map((x)=>{
+                   return aux.push(x);
+               });   
+    }
+    
+    
+    
+    
+    
+};
 
+var checkdb = function(database,res){
+    res = true;
+    if(!db || db == null || db.length === 0){
+        console.log("la base de datos está vacía, get all data, section 1");
+        res = false;
+    }
+    return res;
+};
 
 
