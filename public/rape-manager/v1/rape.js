@@ -283,6 +283,7 @@ module.exports.getData = (request,response)=>{
                    response.sendStatus(500);
                }else{
        
+  
        
           filtradoNombreAnio(datos,aux,parametro,year); 
       
@@ -297,10 +298,10 @@ module.exports.getData = (request,response)=>{
                }
              
            });
-           
+         
        }
        
-       
+      
     }
     
     
@@ -327,7 +328,7 @@ module.exports.postDataGroup = (request,response) =>{
         var parametros = request.body; 
         console.log ("compruebo ahora que el dato que he cogido no esté vacío");
         if(!parametros || parametros == null ){
-            
+            console.log("no hay parametros");
             response.sendStatus(400);
             
         }else {
