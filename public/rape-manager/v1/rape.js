@@ -341,9 +341,9 @@ module.exports.postDataGroup = (request,response) =>{
                 
                 db.find({}).toArray(function(error, datos) {
                     
-                    datos.push(parametros);
+                    db.insert(parametros);
                     console.log("dato creado correctamente");
-                    
+                    response.sendStatus(201);
                 });
                 
             }
