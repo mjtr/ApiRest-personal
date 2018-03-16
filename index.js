@@ -1,12 +1,13 @@
 var express = require ("express");
 var path = require ("path");
 var port = (process.env.PORT || 16778);
-
+var bodyParser = require("body-parser");
 
 var app = express();
 
 
 app.use("/", express.static(path.join(__dirname,"public")));
+app.use(bodyParser.json());
 
 app.listen(port, () => {
     console.log("Magic is happening in port " + port);
