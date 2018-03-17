@@ -19,7 +19,7 @@ module.exports.getInitialData = (request, response) => {
         db.find({}, function(error, conjunto) {
             if (error) {
                 console.error(' Error from DB');
-                response.sendStatus(500); // internal server error
+                response.sendStatus(500); //Internal server error 
             }
             else {
 
@@ -158,7 +158,7 @@ module.exports.getInitialData = (request, response) => {
 module.exports.getAllData = (request, response) => {
 
     if (checkdb(db) == false) {
-        response.sendStatus(500);
+        response.sendStatus(500); //Algo pasa con la base de datos
     }
     else {
 
@@ -172,7 +172,7 @@ module.exports.getAllData = (request, response) => {
 
                 if (checkdb(data) == false) {
                     console.log("section 3 all data error");
-                    response.sendStatus(500);
+                    response.sendStatus(404); // No hay datos
                 }
                 else {
                     response.send(data);
@@ -426,9 +426,9 @@ module.exports.putSingleData = (request, response) => {
 module.exports.deleteData = (request, response) => {
 
     var name = request.params.name;
-    var year = request.params.year;
+    var yearAux = request.params.year;
 
-    if (compruebaDatosURL(name, year) == false) {
+    if (compruebaDatosURL(name, yearAux) == false) {
 
         console.log("Al hacer delete los datos de la url no se han puesto correctamente");
         response.sendStatus(400);
@@ -443,41 +443,20 @@ module.exports.deleteData = (request, response) => {
         }
         else {
 
-            db.remove({ country : name , year : parseInt(year) }, { multi:false }, function(err, num) {
+            db.remove({ country: name, year: parseInt(yearAux) }, {}, function(err, num) {
                 if (err) {
                     console.error(err);
                 }
-                response.sendStatus(200);
-                console.log(num);
-                db.find({}, function(err, result) {
-                    if (err) {
-                        console.error(err);
-                    }
-                    console.log(result);
-                });
-            });
+                console.log("numero de datos eliminados: " + num);
 
-
-           /* db.remove({
-                country: name,
-                year: parseInt(year)
-            }, function(error, conjunto) {
-                var numeros = JSON.parse(conjunto);
-                if (error) {
-                    console.log("Algo pasa con la base de datos que está vacía");
+                if (num == 0) {
+                    console.log("No se ha podido eliminar ningún dato");
                     response.sendStatus(404);
-                }
-                else if (numeros.n > 0) {
-
-                    console.log("El dato se ha borrado satisfactoriamente");
-                    response.sendStatus(204);
                 }
                 else {
-                    console.log("no se ha borrado nada ");
-                    response.sendStatus(404);
+                    response.sendStatus(204);
                 }
-
-            });*/
+            });
 
         }
 
@@ -486,29 +465,29 @@ module.exports.deleteData = (request, response) => {
 };
 
 module.exports.deleteAll = (request, response) => {
-
+    var tamanio = db.length;
     if (checkdb(db) == false) {
         response.sendStatus(500);
     }
     else {
+
+
         db.remove({}, { multi: true }, function(err, num) {
             if (err) {
                 console.error(err);
                 response.sendStatus(500);
             }
-            console.log(num);
-            db.find({}, function(err, result) {
-                if (err) {
-                    console.error(err);
-                    response.sendStatus(500);
-                }
-                console.log(result);
-            });
+            console.log("numero de datos eliminados: " + num);
+            if (num == tamanio) {
+                console.log("No se ha borrado ningún dato");
+                response.sendStatus(404);
+
+            }
+            else {
+                response.sendStatus(204);
+            }
         });
-        /*db.remove();
-        console.log("datos eliminados correctamente");
-        response.sendStatus(200);
-*/
+
     }
 
 };
