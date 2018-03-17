@@ -477,7 +477,7 @@ module.exports.deleteAll = (request, response) => {
     }
     else {
 
-        db.remove();
+        db.remove({});
         console.log("datos eliminados correctamente");
         response.sendStatus(200);
 
