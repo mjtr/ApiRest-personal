@@ -16,7 +16,7 @@ module.exports.getInitialData = (request, response) => {
 
     if (db != null || db.length != 0) {
         //recorremos la base de datos
-        db.find({}).toArray(function(error, conjunto) {
+        db.find({}, function(error, conjunto) {
             if (error) {
                 console.error(' Error from DB');
                 response.sendStatus(500); // internal server error
@@ -134,7 +134,6 @@ module.exports.getInitialData = (request, response) => {
 
                     }]);
 
-
                     console.log("La base de datos se ha creado correctamente");
                     response.sendStatus(201);
                 }
@@ -163,7 +162,7 @@ module.exports.getAllData = (request, response) => {
     }
     else {
 
-        db.find({}).toArray((error, data) => {
+        db.find({}, function(error, data) {
 
             if (error) {
                 console.log("Error en el section 2 get all data");
@@ -213,8 +212,7 @@ module.exports.getSingleDataNameYear = (request, response) => {
     else {
 
 
-        db.find({}).toArray(function(error, datos) {
-
+        db.find({}, function(error, datos) {
             if (checkdb(datos) == false) {
                 response.sendStatus(404);
             }
@@ -263,8 +261,7 @@ module.exports.getData = (request, response) => {
         }
         else {
 
-            db.find({}).toArray(function(error, datos) {
-
+            db.find({}, function(error, datos) {
                 if (checkdb(datos) == false) {
                     response.sendStatus(500);
                 }
@@ -333,8 +330,7 @@ module.exports.postDataGroup = (request, response) => {
             }
             else {
 
-                db.find({}).toArray(function(error, datos) {
-
+                db.find({}, function(error, datos) {
                     conflicto = datos.filter((x) => {
                         return parametros.country == x.country && parametros.year == x.year
                     }).map((x) => {
