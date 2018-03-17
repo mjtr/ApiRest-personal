@@ -169,11 +169,8 @@ module.exports.getInitialData = (request,response)=>{
 
 
 module.exports.getAllData = (request,response)=> {
-    var res;
-    
-    checkdb(db,res);
-    
-    if(res == false){
+
+    if(checkdb(db) == false){
         response.sendStatus(500);
     }else{
        
@@ -183,8 +180,8 @@ module.exports.getAllData = (request,response)=> {
                 console.log("Error en el section 2 get all data");
                 response.sendStatus(500);
             }else{
-                checkdb(data,res);
-             if(res == false){
+               
+             if(checkdb(data) == false){
                     console.log("section 3 all data error");
                     response.sendStatus(500);
                 }else{
@@ -217,18 +214,16 @@ module.exports.getSingleDataNameYear = (request,response)=>{
        
    }
    
-   if (!db || db == null){
-       
-       console.log("algo pasa con la base de datos, section 2 getSingleDataNameYear error");
-       response.sendStatus(500);
+   if (checkdb(db) == false){
+        
+        response.sendStatus(500);
        
    }else {
-       
+        
        
        db.find({}).toArray(function (error, datos){
            
-           if(!datos || datos.length == 0 ){
-               console.log("No hay ningún dato en la base de datos");
+           if(checkdb(datos) == false){
                response.sendStatus(404);
            }else {
               
@@ -267,26 +262,19 @@ module.exports.getData = (request,response)=>{
         response.sendStatus(400);
     }else {
       
-       if(!db || db == null){
-           
-           console.log("Error con la base de datos,get data error section 2 ");
-           response.sendStatus(500);
+       if(checkdb(db)== false){
+            response.sendStatus(500);
             process.exit();
-
-           
        }else{
            
            db.find({}).toArray(function(error, datos) {
                
-               if(!datos  || datos == null || datos.length == 0){
-                   console.log("Algo pasa con la base de datos interna,error get data section 3");
+               if(checkdb(datos)== false){
                    response.sendStatus(500);
                }else{
        
-  
-       
           filtradoNombreAnio(datos,aux,parametro,year); 
-      
+          
        if(aux.length == 0){
                     console.log("no se ha encontrado ningún dato");
                     response.sendStatus(404);
@@ -332,12 +320,16 @@ module.exports.postDataGroup = (request,response) =>{
             response.sendStatus(400);
             
         }else {
-            
             if(chequeaParametro(parametros) == false ){
                 
                 console.log("Bad request, algunos parámetros están mal");
                 response.sendStatus(400);
             }else{
+                
+                if(checkdb(db) == false){
+                    response.sendStatus(500);
+                    
+                }else{
                 
                 db.find({}).toArray(function(error, datos) {
                     
@@ -345,16 +337,12 @@ module.exports.postDataGroup = (request,response) =>{
                     console.log("dato creado correctamente");
                     response.sendStatus(201);
                 });
-                
+                }  
             }
-            
-            
+        
         }
     
-    
 };
-
-
 
 
 /***********************PUT****************************/
@@ -365,27 +353,26 @@ module.exports.putDenied = (request, response) => {
     response.sendStatus(405);
 };
 
-/*module.exports.putSingleData = (request,response) => {
+module.exports.putSingleData = (request,response) => {
     
     var pais = request.params.name;
     var anio = request.params.year;
     var datoActualizar = request.body;
-    
+
     if(compruebaDatosURL(pais,anio) == false){
         
         console.log("los datos año o país están mal introducidos");
         response.sendStatus(400);
     }else{
         
-        if(!db ||db == null ){
+        if(checkdb(db) == false ){
             
             console.log("fallo base de datos en el  put single data, section 1");
             response.sendStatus(500);
             
         }else{
         
-        if(!datoActualizar|| !datoActualizar.country || !datoActualizar.year || datoActualizar.rate ||
-         !datoActualizar.nomber-of-rape || !datoActualizar.total-since-two-thousand){
+        if(chequeaParametro(datoActualizar) == false){
             console.log("Algunos parámetros del dato nuevo que has introducido son incorrectos");
             response.sendStatus(400);
         }else{
@@ -397,18 +384,22 @@ module.exports.putDenied = (request, response) => {
             }, {
                 country: datoActualizar.country,
                 year: datoActualizar.year,
-                number-of-rape: datoActualizar.number-of-rape,
+                ["number-of-rape"]: datoActualizar["number-of-rape"],
                 rate: datoActualizar.rate,
-                total-since-two-thousand: datoActualizar.total-since-two-thousand
+                ["total-since-two-thousand"]: datoActualizar["total-since-two-thousand"]
 
             });
-            res.sendStatus(200); //OK
+            response.sendStatus(200); //OK
 
+        }else {
+          
+          console.log("No puedes modificar el país o el año, procura que tenga los mismos datos");
+            response.sendStatus(405);
         }
         }   
     }
     }
-};*/
+};
 
 
 /***********************DELETE****************************/
@@ -420,14 +411,14 @@ module.exports.deleteData = (request,response) => {
     var auxyear = "";
     var auxname = "";
     var tamanio = "";
-    
+
     if(compruebaDatosURL(year,name) == false){
         
         console.log("Al hacer delete los datos de la url no se han puesto correctamente");
         response.sendStatus(400); 
     }else{
         
-        if(!db ||db == null){
+        if(checkdb(db) == false){
             
             console.log ("Algo ocurre con la base de datos, error delete single data section 1");
             response.sendStatus(500);
@@ -441,7 +432,7 @@ module.exports.deleteData = (request,response) => {
                     response.sendStatus(500);
                 }else{
                     
-                    if(!datos || datos.length == 0){
+                    if(checkdb(datos) == false){
                         console.log("base de datos interna vacía, error section 3 delete single data");
                         response.sendStatus(500);
                         
@@ -453,7 +444,7 @@ module.exports.deleteData = (request,response) => {
                            
                            if (auxname == name && auxyear == year){
                                
-                               datos[i].remove;
+                               db[i].remove;
                                console.log ("dato eliminado correctamente");
                            }
                            
@@ -466,7 +457,7 @@ module.exports.deleteData = (request,response) => {
                         
                     }else{
                         console.log("Si que se ha eliminado el dato correctamente");
-                        response.sendStatus(200);
+                        response.sendStatus(204);
                     }    
                         
                     }
@@ -476,27 +467,15 @@ module.exports.deleteData = (request,response) => {
                 
             });
                 
-                
-            
-            
         }
         
-        
-        
     } 
-    
-    
-    
-    
-    
-    
     
 };
 
 module.exports.deleteAll = (request,response)=>{
     
-    if(!db || db == null ){
-        console.log("Error en la base de datos delete all section 1");
+    if(checkdb(db) == false){
         response.sendStatus(500);
     }else{
         
@@ -539,8 +518,6 @@ module.exports.deleteAll = (request,response)=>{
 //Métodos auxiliares
 var chequeaParametro = function(parametros){
     
-    var res = true; 
-    
     if (parametros.country == null || parametros.country == "" ||
     parametros.year == null || parametros.year == "" ||
     parametros["number-of-rape"] == null || parametros["number-of-rape"] == "" ||
@@ -548,30 +525,28 @@ var chequeaParametro = function(parametros){
     parametros["total-since-two-thousand"] == null || parametros["total-since-two-thousand"] == "" ){
         
         console.log("hay alguno datos nulos o vacíos");
-        res= false;
+        return false;
     }else{
         
      if (isNaN(parametros.country) == false || isNaN(parametros.year) == true 
      || isNaN(parametros["number-of-rape"]) == true  || isNaN(parametros.rate) == true  
      || isNaN(parametros["total-since-two-thousand"]) == true ){
          console.log("alguno de los parámetros están mal introducidos");
-         res = false;
+         return false;
+     }else{
+         return true;
      }
-        
-        
     }
-    
-    return res;
-};
+    };
 
 var compruebaDatosURL = function(pais,anio){
-   var res = true;
-    
+
     if (!pais || !anio || isNaN(pais) == false || isNaN(anio) == true){
-      res = false;
+      return false;
        
+   }else{
+   return true;
    }
-   return res;
 };
 
 var filtradoNombreAnio = function(datos,aux,country,year){
@@ -605,13 +580,15 @@ var filtradoNombreAnio = function(datos,aux,country,year){
     
 };
 
-var checkdb = function(database,res){
-    res = true;
-    if(!db || db == null || db.length === 0){
+var checkdb = function(database){
+    
+    if(!database || database == null || database.length === 0){
         console.log("la base de datos está vacía, get all data, section 1");
-        res = false;
+        return false;
+    }else{
+        return true;
     }
-    return res;
+    
 };
 
 
