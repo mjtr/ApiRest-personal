@@ -443,7 +443,22 @@ module.exports.deleteData = (request, response) => {
         }
         else {
 
-            db.remove({
+            db.remove({ country : name , year : parseInt(year) }, { multi:false }, function(err, num) {
+                if (err) {
+                    console.error(err);
+                }
+                response.sendStatus(200);
+                console.log(num);
+                db.find({}, function(err, result) {
+                    if (err) {
+                        console.error(err);
+                    }
+                    console.log(result);
+                });
+            });
+
+
+           /* db.remove({
                 country: name,
                 year: parseInt(year)
             }, function(error, conjunto) {
@@ -462,7 +477,7 @@ module.exports.deleteData = (request, response) => {
                     response.sendStatus(404);
                 }
 
-            });
+            });*/
 
         }
 
@@ -476,11 +491,24 @@ module.exports.deleteAll = (request, response) => {
         response.sendStatus(500);
     }
     else {
-
-        db.remove({});
+        db.remove({}, { multi: true }, function(err, num) {
+            if (err) {
+                console.error(err);
+                response.sendStatus(500);
+            }
+            console.log(num);
+            db.find({}, function(err, result) {
+                if (err) {
+                    console.error(err);
+                    response.sendStatus(500);
+                }
+                console.log(result);
+            });
+        });
+        /*db.remove();
         console.log("datos eliminados correctamente");
         response.sendStatus(200);
-
+*/
     }
 
 };
