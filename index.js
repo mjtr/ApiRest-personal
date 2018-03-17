@@ -37,10 +37,10 @@ app.post("/api/v1/rape-stats/:name/:year",rape.postDenied);
 /***Put****/
 app.put("/api/v1/rape-stats",rape.putDenied);
 app.put("/api/v1/rape-stats/:name",rape.putDenied);
-//app.put("/api/v1/rape-stats/:name/:year",rape.putSingleData);
+app.put("/api/v1/rape-stats/:name/:year",rape.putSingleData);
 
 /***Delete**/
 app.delete("/api/v1/rape-stats",rape.deleteAll);
 //app.delete("/api/v1/rape-stats/:country" ,rape.deleteData);
-app.delete("/api/v1/rape-stats/:country/:year",rape.deleteData);
+app.delete("/api/v1/rape-stats/:name/:year",rape.deleteData);
 

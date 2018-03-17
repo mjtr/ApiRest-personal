@@ -380,7 +380,7 @@ module.exports.putSingleData = (request,response) => {
         if (pais === datoActualizar.country && parseInt(anio) === parseInt(datoActualizar.year)) {
             db.update({
                 country: pais,
-                year: anio
+                year: parseInt(anio)
             }, {
                 country: datoActualizar.country,
                 year: datoActualizar.year,
@@ -408,11 +408,8 @@ module.exports.deleteData = (request,response) => {
     
     var name = request.params.name ; 
     var year = request.params.year;
-    var auxyear = "";
-    var auxname = "";
-    var tamanio = "";
 
-    if(compruebaDatosURL(year,name) == false){
+    if(compruebaDatosURL(name,year) == false){
         
         console.log("Al hacer delete los datos de la url no se han puesto correctamente");
         response.sendStatus(400); 
@@ -424,47 +421,26 @@ module.exports.deleteData = (request,response) => {
             response.sendStatus(500);
             
         }else{
-            
-            db.find({}).toArray(function(error, datos) {
-                
-                if(error){
-                    console.log("Error section 2 delete single data");
-                    response.sendStatus(500);
-                }else{
-                    
-                    if(checkdb(datos) == false){
-                        console.log("base de datos interna vacía, error section 3 delete single data");
-                        response.sendStatus(500);
-                        
-                    }else{
-                        tamanio = datos.length;
-                       for( var i = 0; i < datos.length ; i++){
-                           auxname = datos[i].country;
-                           auxyear = datos[i].year;
-                           
-                           if (auxname == name && auxyear == year){
-                               
-                               db[i].remove;
-                               console.log ("dato eliminado correctamente");
-                           }
-                           
-                        } 
-                       //Se supone que si se ha eliminado un dato no debería tener el mismo tamaño
-                       
-                    if (tamanio == datos.length){
-                        console.log("No se ha podido encontrar el dato a eliminar");
-                        response.sendStatus(404);
-                        
-                    }else{
-                        console.log("Si que se ha eliminado el dato correctamente");
-                        response.sendStatus(204);
-                    }    
-                        
-                    }
-                    
+                     
+            db.remove({
+                    country: name,
+                    year: parseInt(year)
+            }, function(error, conjunto) {
+                var numeros = JSON.parse(conjunto);
+                if (error) {
+                    console.log("Algo pasa con la base de datos que está vacía");
+                    response.sendStatus(404);
                 }
-                
-                
+                else if (numeros.n > 0) {
+
+                    console.log("El dato se ha borrado satisfactoriamente");
+                    response.sendStatus(204);
+                }
+                else {
+                    console.log("no se ha borrado nada ");
+                    response.sendStatus(404);
+                }
+
             });
                 
         }
