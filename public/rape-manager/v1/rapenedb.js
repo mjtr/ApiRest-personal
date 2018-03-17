@@ -175,6 +175,7 @@ module.exports.getAllData = (request, response) => {
                     response.sendStatus(404); // No hay datos
                 }
                 else {
+                    
                     response.send(data);
 
                 }
