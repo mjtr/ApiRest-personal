@@ -314,6 +314,7 @@ module.exports.postDenied = (request, response)=>{
 module.exports.postDataGroup = (request,response) =>{
     
         var parametros = request.body; 
+        var conflicto = [];
         console.log ("compruebo ahora que el dato que he cogido no esté vacío");
         if(!parametros || parametros == null ){
             console.log("no hay parametros");
@@ -333,9 +334,25 @@ module.exports.postDataGroup = (request,response) =>{
                 
                 db.find({}).toArray(function(error, datos) {
                     
+                    conflicto = datos.filter((x) =>{
+                        return parametros.country == x.country && parametros.year == x.year
+                    }).map((x)=>{
+                        return conflicto.push(x);
+                    });
+                    
+                    if(conflicto.length != 0){
+                        
+                        console.log("El dato ya estaba creado");
+                        response.sendStatus(409);
+                        
+                    }else{
+                        
                     db.insert(parametros);
                     console.log("dato creado correctamente");
                     response.sendStatus(201);
+                        
+                    }
+                    
                 });
                 }  
             }
