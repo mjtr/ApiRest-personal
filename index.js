@@ -21,7 +21,7 @@ app.listen(port, () => {
 
 
 //llamadas a los métodos creados en el otro archivo
-var rape = require("./public/rape-manager/v1/rape.js");
+//var rape = require("./public/rape-manager/v1/rape.js");
 var rape2 = require("./public/rape-manager/v1/rapenedb.js");
 
 /*********CON MONGO*******/
@@ -52,25 +52,61 @@ app.delete("/api/v1/rape-stats",rape.deleteAll);
 app.delete("/api/v1/rape-stats/:name/:year",rape.deleteData);
 */
 
+/*********CON MONGO Y APIKEY*******/
+
+var rape = require("./public/rape-manager/v1/rapekey.js");
+
+/****Gets***/
+
+app.get("/api/v1/rape-stats/loadInitialData",rape.getInitialData);
+app.get("/api/v1/rape-stats",rape.getAllData);
+app.get("/api/v1/rape-stats/:name/:year",rape.getSingleDataNameYear);
+app.get("/api/v1/rape-stats/:name",rape.getData);
+
+/**Post**/
+
+app.post("/api/v1/rape-stats",rape.postDataGroup);
+app.post("/api/v1/rape-stats/:name",rape.postDenied);
+app.post("/api/v1/rape-stats/:name/:year",rape.postDenied);
+
+/***Put****/
+
+app.put("/api/v1/rape-stats",rape.putDenied);
+app.put("/api/v1/rape-stats/:name",rape.putDenied);
+app.put("/api/v1/rape-stats/:name/:year",rape.putSingleData);
+
+/***Delete**/
+
+app.delete("/api/v1/rape-stats",rape.deleteAll);
+//app.delete("/api/v1/rape-stats/:country" ,rape.deleteData);
+app.delete("/api/v1/rape-stats/:name/:year",rape.deleteData);
+
+
+
 /*********CON NEDB*********/
 
 /****Gets***/
+/*
 app.get("/api/v1/rape-stats/loadInitialData", rape2.getInitialData);
 app.get("/api/v1/rape-stats", rape2.getAllData);
 app.get("/api/v1/rape-stats/:name/:year", rape2.getSingleDataNameYear);
 app.get("/api/v1/rape-stats/:name", rape2.getData);
 
 /**Post**/
+/*
 app.post("/api/v1/rape-stats", rape2.postDataGroup);
 app.post("/api/v1/rape-stats/:name", rape2.postDenied);
 app.post("/api/v1/rape-stats/:name/:year", rape2.postDenied);
 
 /***Put****/
+/*
 app.put("/api/v1/rape-stats", rape2.putDenied);
 app.put("/api/v1/rape-stats/:name", rape2.putDenied);
 app.put("/api/v1/rape-stats/:name/:year", rape2.putSingleData);
 
 /***Delete**/
+/*
 app.delete("/api/v1/rape-stats", rape2.deleteAll);
 //app.delete("/api/v1/rape-stats/:country" ,rape2.deleteData);
 app.delete("/api/v1/rape-stats/:name/:year", rape2.deleteData);
+*/
