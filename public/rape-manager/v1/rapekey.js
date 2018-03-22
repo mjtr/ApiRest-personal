@@ -203,37 +203,24 @@ module.exports.getAllData = (request, response) => {
         }
         else {
 
-            if ((!limit && !offset) || (limit == null && offset == null)) {
+            if ((!limit && !offset) || (limit == null && offset == null))
+                recorreDatos(response);
 
-                if (recorreDatos(db) != 0 ) {
-                    response.send(recorreDatos(db));
+            else {
+                if ((limit && !offset) || (limit != null && offset == null))
+                    recorreDatosLimit(response, limit);
 
-                }
                 else {
-                    console.log("Algo ocurre con la base de datos");
-                    response.sendStatus(500);
+                    if ((!limit && offset) || (limit == null && offset != null))
+                        recorreDatosOffset(response, offset);
 
+                    else
+                        recorreDatosLimitOffset(response, limit, offset);
                 }
-                /*  
-                  db.find({}).toArray((error, data) => {
 
-                      if (error) {
-                          console.log("Error en el section 2 get all data");
-                          response.sendStatus(500);
-                      }
-                      else {
-
-                          if (checkdb(data) == false) {
-                              console.log("section 3 all data error");
-                              response.sendStatus(500);
-                          }
-                          else {
-                              response.send(data);
-
-                          }
-                      }
-                  });*/
             }
+
+
         }
 
     }
@@ -624,7 +611,7 @@ module.exports.deleteAll = (request, response) => {
 
             db.remove();
             console.log("datos eliminados correctamente");
-            response.sendStatus(200);
+            response.sendStatus(204);
 
 
         }
@@ -718,28 +705,127 @@ var checkdb = function(database) {
 
 };
 
-var recorreDatos = function(database) {
+var recorreDatos = function(response) {
 
-    database.find({}).toArray((error, data) => {
-
+    db.find({}).toArray((error, data) => {
         if (error) {
             console.log("Error con la base de datos");
-            //response.sendStatus(500);
-            return 0;
+            response.sendStatus(500);
+
         }
         else {
 
             if (checkdb(data) == false) {
                 console.log("section 3 all data error");
-                //response.sendStatus(500);
-                return 0;
+                response.sendStatus(500);
+
             }
             else {
-                return data;
-                //response.send(data);
+                console.log("devolviendo la base de datos completa ");
+                response.send(data.sort((x, y) => {
+                    return x.country.localeCompare(y.country);
+                }));
 
             }
         }
     });
+
+};
+
+var recorreDatosLimit = function(response, limit) {
+    if (limit < 0)
+        response.sendStatus(405);
+    else {
+        db.find({}).sort((x, y) => {
+            return x.country.localeCompare(y.country);
+        }).limit(parseInt(limit)).toArray((error, data) => {
+
+            if (error) {
+                console.log("Error con la base de datos");
+                response.sendStatus(500);
+
+            }
+            else {
+
+                if (checkdb(data) == false) {
+                    console.log("section 3 all data error");
+                    response.sendStatus(500);
+
+                }
+                else {
+                    console.log("devolviendo la base de datos con limit");
+                    response.send(data.sort((x, y) => {
+                        return x.country.localeCompare(y.country);
+                    }));
+
+                }
+            }
+        });
+    }
+};
+
+var recorreDatosOffset = function(response, offset) {
+    if (offset < 0)
+        response.sendStatus(405);
+    else {
+        db.find({}).sort((x, y) => {
+            return x.country.localeCompare(y.country);
+        }).skip(parseInt(offset)).toArray((error, data) => {
+
+            if (error) {
+                console.log("Error con la base de datos");
+                response.sendStatus(500);
+
+            }
+            else {
+
+                if (checkdb(data) == false) {
+                    console.log("section 3 all data error");
+                    response.sendStatus(500);
+
+                }
+                else {
+                    console.log("devolviendo la base de datos offset ");
+                    response.send(data.sort((x, y) => {
+                        return x.country.localeCompare(y.country);
+                    }));
+
+                }
+            }
+        });
+    }
+};
+
+var recorreDatosLimitOffset = function(response, limit, offset) {
+
+    if (limit < 0 || offset < 0)
+        response.sendStatus(405);
+    else {
+        db.find({}).sort((x, y) => {
+            return x.country.localeCompare(y.country);
+        }).skip(parseInt(offset)).limit(parseInt(limit)).toArray((error, data) => {
+
+            if (error) {
+                console.log("Error con la base de datos ");
+                response.sendStatus(500);
+
+            }
+            else {
+
+                if (checkdb(data) == false) {
+                    console.log("section 3 all data error");
+                    response.sendStatus(500);
+
+                }
+                else {
+                    console.log("devolviendo la base de datos limit y offset");
+                    response.send(data.sort((x, y) => {
+                        return x.country.localeCompare(y.country);
+                    }));
+
+                }
+            }
+        });
+    }
 
 };
