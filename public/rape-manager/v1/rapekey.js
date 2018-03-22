@@ -57,107 +57,110 @@ module.exports.getInitialData = (request, response) => {
 
                     }
                     else {
-                        db.insert([{
-                            "country": "france",
-                            "year": 2004,
-                            "number-of-rape": 10408,
-                            "rate": 17.4,
-                            "total-since-two-thousand": 20914
-                        }, {
-                            "country": "france",
-                            "year": 2009,
-                            "number-of-rape": 10108,
-                            "rate": 16.2,
-                            "total-since-two-thousand": 71208
-                        }, {
-                            "country": "germany",
-                            "year": 2010,
-                            "number-of-rape": 7724,
-                            "rate": 9.4,
-                            "total-since-two-thousand": 25730
-                        }, {
-                            "country": "germany",
-                            "year": 2005,
-                            "number-of-rape": 8133,
-                            "rate": 9.9,
-                            "total-since-two-thousand": 12017
+                        db.insert([
 
-                        }, {
-                            "country": "belgium",
-                            "year": 2006,
-                            "number-of-rape": 3194,
-                            "rate": 30.5,
-                            "total-since-two-thousand": 24319
+                            {
+                                "country": "belgium",
+                                "year": 2006,
+                                "number-of-rape": 3194,
+                                "rate": 30.5,
+                                "total-since-two-thousand": 24319
 
-                        }, {
-                            "country": "belgium",
-                            "year": 2010,
-                            "number-of-rape": 2991,
-                            "rate": 27.9,
-                            "total-since-two-thousand": 20914
+                            }, {
+                                "country": "belgium",
+                                "year": 2010,
+                                "number-of-rape": 2991,
+                                "rate": 27.9,
+                                "total-since-two-thousand": 20914
 
-                        }, {
-                            "country": "italy",
-                            "year": 2004,
-                            "number-of-rape": 3734,
-                            "rate": 6.4,
-                            "total-since-two-thousand": 6478
-                        }, {
-                            "country": "sweden",
-                            "year": 2003,
-                            "number-of-rape": 2235,
-                            "rate": 25,
-                            "total-since-two-thousand": 2235
-                        }, {
-                            "country": "sweden",
-                            "year": 2010,
-                            "number-of-rape": 5960,
-                            "rate": 63.5,
-                            "total-since-two-thousand": 34583
+                            }, {
+                                "country": "france",
+                                "year": 2004,
+                                "number-of-rape": 10408,
+                                "rate": 17.4,
+                                "total-since-two-thousand": 20914
+                            }, {
+                                "country": "france",
+                                "year": 2009,
+                                "number-of-rape": 10108,
+                                "rate": 16.2,
+                                "total-since-two-thousand": 71208
+                            }, {
+                                "country": "germany",
+                                "year": 2005,
+                                "number-of-rape": 8133,
+                                "rate": 9.9,
+                                "total-since-two-thousand": 12017
 
-                        }, {
-                            "country": "netherlands",
-                            "year": 2007,
-                            "number-of-rape": 2095,
-                            "rate": 12.7,
-                            "total-since-two-thousand": 10465
+                            }, {
+                                "country": "germany",
+                                "year": 2010,
+                                "number-of-rape": 7724,
+                                "rate": 9.4,
+                                "total-since-two-thousand": 25730
+                            }, {
+                                "country": "italy",
+                                "year": 2004,
+                                "number-of-rape": 3734,
+                                "rate": 6.4,
+                                "total-since-two-thousand": 6478
+                            }, {
+                                "country": "netherlands",
+                                "year": 2007,
+                                "number-of-rape": 2095,
+                                "rate": 12.7,
+                                "total-since-two-thousand": 10465
 
-                        }, {
-                            "country": "netherlands",
-                            "year": 2008,
-                            "number-of-rape": 1920,
-                            "rate": 11.6,
-                            "total-since-two-thousand": 12385
+                            }, {
+                                "country": "netherlands",
+                                "year": 2008,
+                                "number-of-rape": 1920,
+                                "rate": 11.6,
+                                "total-since-two-thousand": 12385
 
-                        }, {
-                            "country": "ukraine",
-                            "year": 2009,
-                            "number-of-rape": 758,
-                            "rate": 1.7,
-                            "total-since-two-thousand": 1048
+                            }, {
+                                "country": "portugal",
+                                "year": 2008,
+                                "number-of-rape": 392,
+                                "rate": 3.7,
+                                "total-since-two-thousand": 392
 
-                        }, {
-                            "country": "ukraine",
-                            "year": 2003,
-                            "number-of-rape": 1048,
-                            "rate": 2.2,
-                            "total-since-two-thousand": 6445
+                            }, {
+                                "country": "portugal",
+                                "year": 2010,
+                                "number-of-rape": 424,
+                                "rate": 4,
+                                "total-since-two-thousand": 2856
 
-                        }, {
-                            "country": "portugal",
-                            "year": 2008,
-                            "number-of-rape": 392,
-                            "rate": 3.7,
-                            "total-since-two-thousand": 392
+                            }, {
+                                "country": "sweden",
+                                "year": 2003,
+                                "number-of-rape": 2235,
+                                "rate": 25,
+                                "total-since-two-thousand": 2235
+                            }, {
+                                "country": "sweden",
+                                "year": 2010,
+                                "number-of-rape": 5960,
+                                "rate": 63.5,
+                                "total-since-two-thousand": 34583
 
-                        }, {
-                            "country": "portugal",
-                            "year": 2010,
-                            "number-of-rape": 424,
-                            "rate": 4,
-                            "total-since-two-thousand": 2856
+                            }, {
+                                "country": "ukraine",
+                                "year": 2003,
+                                "number-of-rape": 1048,
+                                "rate": 2.2,
+                                "total-since-two-thousand": 6445
 
-                        }]);
+                            }, {
+                                "country": "ukraine",
+                                "year": 2009,
+                                "number-of-rape": 758,
+                                "rate": 1.7,
+                                "total-since-two-thousand": 1048
+
+                            }
+                        ]);
 
 
                         console.log("La base de datos se ha creado correctamente");
@@ -186,6 +189,8 @@ module.exports.getAllData = (request, response) => {
     var key = request.query.apikey;
     var limit = request.query.limit;
     var offset = request.query.offset;
+    var from = request.query.from;
+    var to = request.query.to;
 
     if (!key) {
         response.sendStatus(401); //No ha puesto la apikey
@@ -204,18 +209,18 @@ module.exports.getAllData = (request, response) => {
         else {
 
             if ((!limit && !offset) || (limit == null && offset == null))
-                recorreDatos(response);
+                recorreDatos(response, from, to);
 
             else {
                 if ((limit && !offset) || (limit != null && offset == null))
-                    recorreDatosLimit(response, limit);
+                    recorreDatosLimit(response, parseInt(limit));
 
                 else {
                     if ((!limit && offset) || (limit == null && offset != null))
-                        recorreDatosOffset(response, offset);
+                        recorreDatosOffset(response, parseInt(offset));
 
                     else
-                        recorreDatosLimitOffset(response, limit, offset);
+                        recorreDatosLimitOffset(response, parseInt(limit), parseInt(offset));
                 }
 
             }
@@ -292,7 +297,7 @@ module.exports.getSingleDataNameYear = (request, response) => {
 };
 
 
-//GET a un recurso por nombre o anio 
+//GET a un recurso por nombre o año 
 
 module.exports.getData = (request, response) => {
 
@@ -622,8 +627,6 @@ module.exports.deleteAll = (request, response) => {
 
 /************MÉTODOS AUXILIARES***********/
 
-
-//Métodos auxiliares
 var chequeaParametro = function(parametros) {
 
     if (parametros.country == null || parametros.country == "" ||
@@ -705,7 +708,7 @@ var checkdb = function(database) {
 
 };
 
-var recorreDatos = function(response) {
+var recorreDatos = function(response, desde, hasta) {
 
     db.find({}).toArray((error, data) => {
         if (error) {
@@ -716,15 +719,19 @@ var recorreDatos = function(response) {
         else {
 
             if (checkdb(data) == false) {
-                console.log("section 3 all data error");
-                response.sendStatus(500);
+                console.log("section 3 all data error, base de datos está vacía o no se ha podido encontrar");
+                response.sendStatus(404);
 
             }
             else {
                 console.log("devolviendo la base de datos completa ");
-                response.send(data.sort((x, y) => {
-                    return x.country.localeCompare(y.country);
-                }));
+
+                if ((desde && hasta) || (!desde && hasta) || desde && !hasta)
+                    busquedaDatos(response, desde, hasta);
+                else
+                    response.send(data);
+
+
 
             }
         }
@@ -736,9 +743,7 @@ var recorreDatosLimit = function(response, limit) {
     if (limit < 0)
         response.sendStatus(405);
     else {
-        db.find({}).sort((x, y) => {
-            return x.country.localeCompare(y.country);
-        }).limit(parseInt(limit)).toArray((error, data) => {
+        db.find({}).limit(parseInt(limit)).toArray((error, data) => {
 
             if (error) {
                 console.log("Error con la base de datos");
@@ -754,9 +759,7 @@ var recorreDatosLimit = function(response, limit) {
                 }
                 else {
                     console.log("devolviendo la base de datos con limit");
-                    response.send(data.sort((x, y) => {
-                        return x.country.localeCompare(y.country);
-                    }));
+                    response.send(data);
 
                 }
             }
@@ -768,9 +771,7 @@ var recorreDatosOffset = function(response, offset) {
     if (offset < 0)
         response.sendStatus(405);
     else {
-        db.find({}).sort((x, y) => {
-            return x.country.localeCompare(y.country);
-        }).skip(parseInt(offset)).toArray((error, data) => {
+        db.find({}).skip(offset).toArray((error, data) => {
 
             if (error) {
                 console.log("Error con la base de datos");
@@ -786,9 +787,7 @@ var recorreDatosOffset = function(response, offset) {
                 }
                 else {
                     console.log("devolviendo la base de datos offset ");
-                    response.send(data.sort((x, y) => {
-                        return x.country.localeCompare(y.country);
-                    }));
+                    response.send(data);
 
                 }
             }
@@ -801,9 +800,7 @@ var recorreDatosLimitOffset = function(response, limit, offset) {
     if (limit < 0 || offset < 0)
         response.sendStatus(405);
     else {
-        db.find({}).sort((x, y) => {
-            return x.country.localeCompare(y.country);
-        }).skip(parseInt(offset)).limit(parseInt(limit)).toArray((error, data) => {
+        db.find({}).skip(offset).limit(limit).toArray((error, data) => {
 
             if (error) {
                 console.log("Error con la base de datos ");
@@ -819,13 +816,89 @@ var recorreDatosLimitOffset = function(response, limit, offset) {
                 }
                 else {
                     console.log("devolviendo la base de datos limit y offset");
-                    response.send(data.sort((x, y) => {
-                        return x.country.localeCompare(y.country);
-                    }));
+                    response.send(data);
 
                 }
             }
         });
     }
+
+};
+
+var busquedaDatos = (response, desde, hasta) => {
+    var res = [];
+
+    db.find({}).toArray((error, data) => {
+
+        if (error) {
+            console.log("Error con la base de datos ");
+            response.sendStatus(500);
+
+        }
+        else {
+
+            if (checkdb(data) == false) {
+                console.log("section 3 all data error");
+                response.sendStatus(500);
+
+            }
+            else {
+                if (desde && hasta) {
+                    console.log("Hay from y to");
+
+                    data.filter((x) => {
+
+                        return (x.year >= parseInt(desde) && x.year <= parseInt(hasta));
+
+                    }).map((x) => {
+                        return res.push(x);
+                    });
+                }
+                else {
+
+                    if (desde && !hasta) {
+                        console.log("Solamente hemos puesto el from");
+
+                        data.filter((x) => {
+
+                            return x.year >= desde;
+                        }).map((x) => {
+                            return res.push(x);
+
+                        });
+
+                    }
+                    else {
+
+                        if (!desde && hasta) {
+                            console.log("Solamente hemos puesto el to");
+
+                            data.filter((x) => {
+
+                                return x.year <= hasta;
+                            }).map((x) => {
+                                return res.push(x);
+
+                            });
+
+                        }
+
+                    }
+
+                }
+                if (res.length == 0) {
+                    console.log("No se ha podido encontrar ningún dato con esos parámetros de búsquedas");
+                    response.sendStatus(404);
+                }
+                else
+                    response.send(res);
+
+            }
+        }
+
+
+    });
+
+
 
 };
