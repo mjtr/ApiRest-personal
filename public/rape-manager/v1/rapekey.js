@@ -8,7 +8,6 @@ var apikey = "sos1718-12";
 
 /******CONECTAR CON LA BASE DE DATOS******/
 
-
 mongoClient.connect(mongoURL, { native_parser: true }, (error, database) => {
 
     if (error) {
@@ -180,10 +179,8 @@ module.exports.getInitialData = (request, response) => {
 };
 
 
-
 /**********************************GET***************************/
 //Get a un conjunto de datos
-
 
 module.exports.getAllData = (request, response) => {
     var key = request.query.apikey;
@@ -192,98 +189,64 @@ module.exports.getAllData = (request, response) => {
     var from = request.query.from;
     var to = request.query.to;
 
-    if (!key) {
+    if (!key)
         response.sendStatus(401); //No ha puesto la apikey
 
-    }
-    else if (key != apikey) {
-
+    else if (key != apikey)
         response.sendStatus(403); //Está  mal puesta la apikey
-    }
+
     else {
 
-        if (checkdb(db) == false) {
+        if (checkdb(db) == false)
             response.sendStatus(500);
 
-        }
         else {
 
-            if ((!limit && !offset) || (limit == null && offset == null))
+            if (!limit || !offset || limit == null || offset == null)
                 recorreDatos(response, from, to);
-
-            else {
-                if ((limit && !offset) || (limit != null && offset == null))
-                    recorreDatosLimit(response, parseInt(limit));
-
-                else {
-                    if ((!limit && offset) || (limit == null && offset != null))
-                        recorreDatosOffset(response, parseInt(offset));
-
-                    else
-                        recorreDatosLimitOffset(response, parseInt(limit), parseInt(offset));
-                }
-
-            }
-
+            else
+                recorreDatosLimitOffset(response, parseInt(limit), parseInt(offset), from, to);
 
         }
-
     }
 };
 
-
 //Get a un recurso en concreto por nombre y año
-
 
 module.exports.getSingleDataNameYear = (request, response) => {
 
-    //cogemos los datos que pasamos en la url como parámetros    
     var country = request.params.name;
     var year = request.params.year;
     var conjuntoAux = [];
     var key = request.query.apikey;
 
-    if (!key) {
+    if (!key)
         response.sendStatus(401); //No ha puesto la apikey
 
-    }
-    else if (key != apikey) {
-
+    else if (key != apikey)
         response.sendStatus(403); //Está  mal puesta la apikey
-    }
+
     else {
 
-        if (compruebaDatosURL(country, year) == false) {
-
-            console.log("Error al introducir el nombre o el año, section 1 getSingleDataNameYear error");
+        if (compruebaDatosURL(country, year) == false)
             response.sendStatus(400);
 
-        }
 
-        if (checkdb(db) == false) {
-
+        if (checkdb(db) == false)
             response.sendStatus(500);
 
-        }
         else {
-
-
             db.find({}).toArray(function(error, datos) {
 
-                if (checkdb(datos) == false) {
+                if (checkdb(datos) == false)
                     response.sendStatus(404);
-                }
-                else {
 
+                else
                     filtradoNombreAnio(datos, conjuntoAux, country, year);
 
-                }
-
                 if (conjuntoAux.length === 0) {
-
                     console.log("el conjunto auxiliar no ha guardado ningún dato, luego no lo ha encontrado");
                     response.sendStatus(404);
-
                 }
                 else {
 
@@ -296,7 +259,6 @@ module.exports.getSingleDataNameYear = (request, response) => {
     }
 };
 
-
 //GET a un recurso por nombre o año 
 
 module.exports.getData = (request, response) => {
@@ -306,14 +268,12 @@ module.exports.getData = (request, response) => {
     var year = null;
     var key = request.query.apikey;
 
-    if (!key) {
+    if (!key) 
         response.sendStatus(401); //No ha puesto la apikey
-
-    }
-    else if (key != apikey) {
-
+   
+    else if (key != apikey) 
         response.sendStatus(403); //Está  mal puesta la apikey
-    }
+    
     else {
 
         if (!parametro || parametro == null) {
@@ -358,8 +318,6 @@ module.exports.getData = (request, response) => {
     }
 
 };
-
-
 
 /***********************POST***************************/
 
@@ -655,8 +613,8 @@ var chequeaParametro = function(parametros) {
 var compruebaDatosURL = function(pais, anio) {
 
     if (!pais || !anio || isNaN(pais) == false || isNaN(anio) == true) {
+        console.log("Error al introducir el nombre o el año, section 1 getSingleDataNameYear error");
         return false;
-
     }
     else {
         return true;
@@ -726,7 +684,7 @@ var recorreDatos = function(response, desde, hasta) {
             else {
                 console.log("devolviendo la base de datos completa ");
 
-                if ((desde && hasta) || (!desde && hasta) || desde && !hasta)
+                if ((desde && hasta) || (!desde && hasta) || (desde && !hasta))
                     busquedaDatos(response, desde, hasta);
                 else
                     response.send(data);
@@ -739,63 +697,7 @@ var recorreDatos = function(response, desde, hasta) {
 
 };
 
-var recorreDatosLimit = function(response, limit) {
-    if (limit < 0)
-        response.sendStatus(405);
-    else {
-        db.find({}).limit(parseInt(limit)).toArray((error, data) => {
-
-            if (error) {
-                console.log("Error con la base de datos");
-                response.sendStatus(500);
-
-            }
-            else {
-
-                if (checkdb(data) == false) {
-                    console.log("section 3 all data error");
-                    response.sendStatus(500);
-
-                }
-                else {
-                    console.log("devolviendo la base de datos con limit");
-                    response.send(data);
-
-                }
-            }
-        });
-    }
-};
-
-var recorreDatosOffset = function(response, offset) {
-    if (offset < 0)
-        response.sendStatus(405);
-    else {
-        db.find({}).skip(offset).toArray((error, data) => {
-
-            if (error) {
-                console.log("Error con la base de datos");
-                response.sendStatus(500);
-
-            }
-            else {
-
-                if (checkdb(data) == false) {
-                    console.log("section 3 all data error");
-                    response.sendStatus(500);
-
-                }
-                else {
-                    console.log("devolviendo la base de datos offset ");
-                    response.send(data);
-
-                }
-            }
-        });
-    }
-};
-
-var recorreDatosLimitOffset = function(response, limit, offset) {
+var recorreDatosLimitOffset = function(response, limit, offset, desde, hasta) {
 
     if (limit < 0 || offset < 0)
         response.sendStatus(405);
@@ -816,8 +718,11 @@ var recorreDatosLimitOffset = function(response, limit, offset) {
                 }
                 else {
                     console.log("devolviendo la base de datos limit y offset");
-                    response.send(data);
 
+                    if ((desde && hasta) || (!desde && hasta) || (desde && !hasta))
+                        busquedaDatos(response, desde, hasta);
+                    else
+                        response.send(data);
                 }
             }
         });
@@ -861,7 +766,7 @@ var busquedaDatos = (response, desde, hasta) => {
 
                         data.filter((x) => {
 
-                            return x.year >= desde;
+                            return x.year >= parseInt(desde);
                         }).map((x) => {
                             return res.push(x);
 
@@ -875,7 +780,7 @@ var busquedaDatos = (response, desde, hasta) => {
 
                             data.filter((x) => {
 
-                                return x.year <= hasta;
+                                return x.year <= parseInt(hasta);
                             }).map((x) => {
                                 return res.push(x);
 

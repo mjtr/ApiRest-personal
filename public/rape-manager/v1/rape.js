@@ -507,8 +507,6 @@ module.exports.deleteAll = (request,response)=>{
 
 /************MÉTODOS AUXILIARES***********/
 
-
-//Métodos auxiliares
 var chequeaParametro = function(parametros){
     
     if (parametros.country == null || parametros.country == "" ||
