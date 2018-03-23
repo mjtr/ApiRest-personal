@@ -204,9 +204,9 @@ module.exports.getAllData = (request, response) => {
 
             if (!limit || !offset || limit == null || offset == null)
                 recorreDatos(response, from, to);
+
             else
                 recorreDatosLimitOffset(response, parseInt(limit), parseInt(offset), from, to);
-
         }
     }
 };
@@ -268,12 +268,12 @@ module.exports.getData = (request, response) => {
     var year = null;
     var key = request.query.apikey;
 
-    if (!key) 
+    if (!key)
         response.sendStatus(401); //No ha puesto la apikey
-   
-    else if (key != apikey) 
+
+    else if (key != apikey)
         response.sendStatus(403); //Está  mal puesta la apikey
-    
+
     else {
 
         if (!parametro || parametro == null) {
