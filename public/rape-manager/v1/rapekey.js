@@ -47,8 +47,7 @@ module.exports.getInitialData = (request, response) => {
                 }
                 else {
 
-
-                    /*Comprobamos que el conjunto no esté vacío*/
+                    /*Comprobamos que el conjunto no esté vaacío*/
                     if (conjunto.length !== 0) {
 
                         console.log("la base de datos ya está creada");
