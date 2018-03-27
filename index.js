@@ -49,7 +49,6 @@ app.put("/api/v1/rape-stats/:name/:year",rape.putSingleData);
 /***Delete**/
 
 app.delete("/api/v1/rape-stats",rape.deleteAll);
-//app.delete("/api/v1/rape-stats/:country" ,rape.deleteData);
 app.delete("/api/v1/rape-stats/:name/:year",rape.deleteData);
 
 
@@ -79,7 +78,6 @@ app.put("/api/v1/secure/rape-stats/:name/:year",rapekey.putSingleData);
 /***Delete**/
 
 app.delete("/api/v1/secure/rape-stats",rapekey.deleteAll );
-//app.delete("/api/v1/rape-stats/:country" ,rapekey.deleteData);
 app.delete("/api/v1/rape-stats/secure/:name/:year",rapekey.deleteData);
 
 
