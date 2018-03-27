@@ -501,7 +501,7 @@ module.exports.deleteData = (request, response) => {
     var year = request.params.year;
 
     var key = request.query.apikey;
-
+    console.log("Hemos entrado en el delete individual del rapekey");
     if (!key) {
         response.sendStatus(401); //No ha puesto la apikey
 
