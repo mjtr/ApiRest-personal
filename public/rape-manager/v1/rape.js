@@ -168,7 +168,6 @@ module.exports.getInitialData = (request, response) => {
 //Get a un conjunto de datos
 
 module.exports.getAllData = (request, response) => {
-    var key = request.query.apikey;
     var limit = request.query.limit;
     var offset = request.query.offset;
     var from = request.query.from;
