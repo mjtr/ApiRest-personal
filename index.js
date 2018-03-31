@@ -19,7 +19,7 @@ app.listen(port, () => {
 
 app.get("/api/v1/rape-stats/docs",(req,res)=>{
    
-   res.redirect("https://www.getpostman.com/collections/69913d193884d26e1f3d");
+   res.redirect("https://documenter.getpostman.com/view/360397/collection/RVu1GWFS");
    
     
 });
