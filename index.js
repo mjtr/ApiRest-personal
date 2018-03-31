@@ -17,7 +17,12 @@ app.listen(port, () => {
 });
 
 
-
+app.get("/api/v1/rape-stats/docs",(req,res)=>{
+   
+   res.redirect("https://www.getpostman.com/collections/69913d193884d26e1f3d");
+   
+    
+});
 
 
 //llamadas a los métodos creados en el otro archivo
