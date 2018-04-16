@@ -170,8 +170,16 @@ module.exports.getInitialData = (request, response) => {
 module.exports.getAllData = (request, response) => {
     var limit = request.query.limit;
     var offset = request.query.offset;
+    //Todas las siguientes variables serán para las búsquedas
     var from = request.query.from;
     var to = request.query.to;
+    var pais = request.query.country;
+    var fromRate = request.query["from-rate"];
+    var toRate = request.query["to-rate"];
+    var fromIncidence = request.query["from-rape"];
+    var toIncidence = request.query["to-rape"];
+    var fromTotal = request.query["from-total"];
+    var toTotal = request.query["to-total"];
 
     if (checkdb(db) == false)
         response.sendStatus(500);
@@ -179,10 +187,11 @@ module.exports.getAllData = (request, response) => {
     else {
 
         if (!limit || !offset || limit == null || offset == null)
-            recorreDatos(response, from, to);
+            recorreDatos(response, from, to, pais, fromIncidence, toIncidence, fromRate, toRate, fromTotal, toTotal);
 
         else
-            recorreDatosLimitOffset(response, parseInt(limit), parseInt(offset), from, to);
+            recorreDatosLimitOffset(response, parseInt(limit), parseInt(offset), from, to,
+                pais, fromIncidence, toIncidence, fromRate, toRate, fromTotal, toTotal);
     }
 
 };
@@ -292,27 +301,20 @@ module.exports.postDataGroup = (request, response) => {
 
     var parametros = request.body;
     var conflicto = [];
-    console.log("compruebo ahora que el dato que he cogido no esté vacío");
 
-    if (!parametros || parametros == null) {
-        console.log("no hay parametros");
+    if (!parametros || parametros == null) 
         response.sendStatus(400);
 
-    }
     else {
-        if (chequeaParametro(parametros) == false) {
-
-            console.log("Bad request, algunos parámetros están mal");
+        if (chequeaParametro(parametros) == false)
             response.sendStatus(400);
-        }
+
         else {
 
-            if (checkdb(db) == false) {
+            if (checkdb(db) == false)
                 response.sendStatus(500);
 
-            }
             else {
-
                 db.find({}).toArray(function(error, datos) {
 
                     conflicto = datos.filter((x) => {
@@ -321,12 +323,9 @@ module.exports.postDataGroup = (request, response) => {
                         return conflicto.push(x);
                     });
 
-                    if (conflicto.length != 0) {
-
-                        console.log("El dato ya estaba creado");
+                    if (conflicto.length != 0) 
                         response.sendStatus(409);
 
-                    }
                     else {
 
                         db.insert(parametros);
@@ -346,9 +345,9 @@ module.exports.postDataGroup = (request, response) => {
 /***********************PUT****************************/
 
 module.exports.putDenied = (request, response) => {
-        console.log("no está permitido hace put a un conjunto de datos");
-        response.sendStatus(405);
-    
+    console.log("no está permitido hace put a un conjunto de datos");
+    response.sendStatus(405);
+
 };
 
 module.exports.putSingleData = (request, response) => {
@@ -357,50 +356,48 @@ module.exports.putSingleData = (request, response) => {
     var anio = request.params.year;
     var datoActualizar = request.body;
 
-        if (compruebaDatosURL(pais, anio) == false) {
+    if (compruebaDatosURL(pais, anio) == false) {
 
-            console.log("los datos año o país están mal introducidos");
-            response.sendStatus(400);
+        console.log("los datos año o país están mal introducidos");
+        response.sendStatus(400);
+    }
+    else {
+
+        if (checkdb(db) == false) {
+
+            console.log("fallo base de datos en el  put single data, section 1");
+            response.sendStatus(500);
+
         }
         else {
 
-            if (checkdb(db) == false) {
-
-                console.log("fallo base de datos en el  put single data, section 1");
-                response.sendStatus(500);
-
+            if (chequeaParametro(datoActualizar) == false) {
+                console.log("Algunos parámetros del dato nuevo que has introducido son incorrectos");
+                response.sendStatus(400);
             }
             else {
 
-                if (chequeaParametro(datoActualizar) == false) {
-                    console.log("Algunos parámetros del dato nuevo que has introducido son incorrectos");
-                    response.sendStatus(400);
+                if (pais === datoActualizar.country && parseInt(anio) === parseInt(datoActualizar.year)) {
+                    db.update({
+                        country: pais,
+                        year: parseInt(anio)
+                    }, {
+                        country: datoActualizar.country,
+                        year: datoActualizar.year,
+                        ["number-of-rape"]: datoActualizar["number-of-rape"],
+                        rate: datoActualizar.rate,
+                        ["total-since-two-thousand"]: datoActualizar["total-since-two-thousand"]
+
+                    });
+                    response.sendStatus(200); //OK
                 }
                 else {
-
-                    if (pais === datoActualizar.country && parseInt(anio) === parseInt(datoActualizar.year)) {
-                        db.update({
-                            country: pais,
-                            year: parseInt(anio)
-                        }, {
-                            country: datoActualizar.country,
-                            year: datoActualizar.year,
-                            ["number-of-rape"]: datoActualizar["number-of-rape"],
-                            rate: datoActualizar.rate,
-                            ["total-since-two-thousand"]: datoActualizar["total-since-two-thousand"]
-
-                        });
-                        response.sendStatus(200); //OK
-
-                    }
-                    else {
-
-                        console.log("No puedes modificar el país o el año, procura que tenga los mismos datos");
-                        response.sendStatus(405);
-                    }
+                    console.log("No puedes modificar el país o el año, procura que tenga los mismos datos");
+                    response.sendStatus(400);
                 }
             }
         }
+    }
 };
 
 
@@ -411,58 +408,58 @@ module.exports.deleteData = (request, response) => {
     var name = request.params.name;
     var year = request.params.year;
 
-        if (compruebaDatosURL(name, year) == false) {
+    if (compruebaDatosURL(name, year) == false) {
 
-            console.log("Al hacer delete los datos de la url no se han puesto correctamente");
-            response.sendStatus(400);
+        console.log("Al hacer delete los datos de la url no se han puesto correctamente");
+        response.sendStatus(400);
+    }
+    else {
+
+        if (checkdb(db) == false) {
+
+            console.log("Algo ocurre con la base de datos, error delete single data section 1");
+            response.sendStatus(500);
+
         }
         else {
 
-            if (checkdb(db) == false) {
+            db.remove({
+                country: name,
+                year: parseInt(year)
+            }, function(error, conjunto) {
+                var numeros = JSON.parse(conjunto);
+                if (error) {
+                    console.log("Algo pasa con la base de datos que está vacía");
+                    response.sendStatus(404);
+                }
+                else if (numeros.n > 0) {
 
-                console.log("Algo ocurre con la base de datos, error delete single data section 1");
-                response.sendStatus(500);
+                    console.log("El dato se ha borrado satisfactoriamente");
+                    response.sendStatus(204);
+                }
+                else {
+                    console.log("no se ha borrado nada ");
+                    response.sendStatus(404);
+                }
 
-            }
-            else {
+            });
 
-                db.remove({
-                    country: name,
-                    year: parseInt(year)
-                }, function(error, conjunto) {
-                    var numeros = JSON.parse(conjunto);
-                    if (error) {
-                        console.log("Algo pasa con la base de datos que está vacía");
-                        response.sendStatus(404);
-                    }
-                    else if (numeros.n > 0) {
-
-                        console.log("El dato se ha borrado satisfactoriamente");
-                        response.sendStatus(204);
-                    }
-                    else {
-                        console.log("no se ha borrado nada ");
-                        response.sendStatus(404);
-                    }
-
-                });
-
-            }
+        }
     }
 };
 
 module.exports.deleteAll = (request, response) => {
- 
-        if (checkdb(db) == false) {
-            response.sendStatus(500);
-        }
-        else {
 
-            db.remove();
-            console.log("datos eliminados correctamente");
-            response.sendStatus(204);
-       }
-    
+    if (checkdb(db) == false) {
+        response.sendStatus(500);
+    }
+    else {
+
+        db.remove();
+        console.log("datos eliminados correctamente");
+        response.sendStatus(204);
+    }
+
 };
 
 
@@ -550,48 +547,54 @@ var checkdb = function(database) {
 
 };
 
-var recorreDatos = function(response, desde, hasta) {
-
+var recorreDatos = function(response, desde, hasta, pais, fromIncidence, toIncidence, fromRate, toRate, desdeTotal, hastaTotal) {
+    console.log("Estamos en el recorre datos");
     db.find({}).toArray((error, data) => {
-        if (error) {
-            console.log("Error con la base de datos");
+
+        if (error)
             response.sendStatus(500);
 
-        }
         else {
 
-            if (checkdb(data) == false) {
-                console.log("section 3 all data error, base de datos está vacía o no se ha podido encontrar");
+            if (checkdb(data) == false)
                 response.sendStatus(404);
 
-            }
             else {
-                console.log("devolviendo la base de datos completa ");
 
                 if ((desde && hasta) || (!desde && hasta) || (desde && !hasta))
-                    busquedaDatos(response, desde, hasta);
-                else
+                    busquedaYear(response, desde, hasta);
+
+                else if (pais)
+                    busquedaPais(response, pais);
+
+                else if (fromIncidence && toIncidence)
+                    busquedaIncidencia(response, fromIncidence, toIncidence);
+
+                else if (fromRate && toRate)
+                    busquedaPorcentaje(response, fromRate, toRate);
+
+                else if (desdeTotal && hastaTotal)
+                    buscarTotal(response, desdeTotal, hastaTotal);
+                else {
+                    console.log("devolviendo todos los datos");
                     response.send(data);
-
-
-
+                }
             }
         }
     });
 
 };
 
-var recorreDatosLimitOffset = function(response, limit, offset, desde, hasta) {
-
+var recorreDatosLimitOffset = function(response, limit, offset, desde, hasta,
+    pais, fromIncidence, toIncidence, fromRate, toRate, fromTotal, toTotal) {
+    console.log("Hemos entrado con limit y offset");
     if (limit < 0 || offset < 0)
-        response.sendStatus(405);
+        response.sendStatus(404);
     else {
         db.find({}).skip(offset).limit(limit).toArray((error, data) => {
-
             if (error) {
                 console.log("Error con la base de datos ");
                 response.sendStatus(500);
-
             }
             else {
 
@@ -601,12 +604,8 @@ var recorreDatosLimitOffset = function(response, limit, offset, desde, hasta) {
 
                 }
                 else {
-                    console.log("devolviendo la base de datos limit y offset");
-
-                    if ((desde && hasta) || (!desde && hasta) || (desde && !hasta))
-                        busquedaDatos(response, desde, hasta);
-                    else
-                        response.send(data);
+                    console.log("devolviendo la base de datos completa limit y offset");
+                    response.send(data);
                 }
             }
         });
@@ -614,31 +613,24 @@ var recorreDatosLimitOffset = function(response, limit, offset, desde, hasta) {
 
 };
 
-var busquedaDatos = (response, desde, hasta) => {
+var busquedaYear = function(response, desde, hasta) {
     var res = [];
-
+    console.log("Hemos entrado en la búsqueda por años");
     db.find({}).toArray((error, data) => {
 
-        if (error) {
-            console.log("Error con la base de datos ");
+        if (error)
             response.sendStatus(500);
 
-        }
         else {
 
-            if (checkdb(data) == false) {
-                console.log("section 3 all data error");
+            if (checkdb(data) == false)
                 response.sendStatus(500);
 
-            }
             else {
                 if (desde && hasta) {
                     console.log("Hay from y to");
-
                     data.filter((x) => {
-
                         return (x.year >= parseInt(desde) && x.year <= parseInt(hasta));
-
                     }).map((x) => {
                         return res.push(x);
                     });
@@ -647,15 +639,11 @@ var busquedaDatos = (response, desde, hasta) => {
 
                     if (desde && !hasta) {
                         console.log("Solamente hemos puesto el from");
-
                         data.filter((x) => {
-
                             return x.year >= parseInt(desde);
                         }).map((x) => {
                             return res.push(x);
-
                         });
-
                     }
                     else {
 
@@ -663,17 +651,12 @@ var busquedaDatos = (response, desde, hasta) => {
                             console.log("Solamente hemos puesto el to");
 
                             data.filter((x) => {
-
                                 return x.year <= parseInt(hasta);
                             }).map((x) => {
                                 return res.push(x);
-
                             });
-
                         }
-
                     }
-
                 }
                 if (res.length == 0) {
                     console.log("No se ha podido encontrar ningún dato con esos parámetros de búsquedas");
@@ -681,13 +664,136 @@ var busquedaDatos = (response, desde, hasta) => {
                 }
                 else
                     response.send(res);
-
             }
         }
-
-
     });
+};
 
+var busquedaPais = function(response, pais) {
+    console.log("Hemos entrado en la búsqueda por países");
+    if (isNaN(pais) == false) {
+        console.log("el país que has puesto no está formado por caracteres");
+        response.send(404);
+    }
+    else {
+        db.find({ country: pais }).toArray((error, data) => {
+            if (error) {
+                console.log("Error con la base de datos");
+                response.sendStatus(500);
+            }
+            else {
+                if (data.length == 0)
+                    response.sendStatus(404);
+                else
+                    response.send(data);
+            }
+        });
 
+    }
 
+};
+
+var busquedaIncidencia = function(response, desdeIncidencia, hastaIncidencia) {
+    var res = [];
+    console.log("hemos entrado en la busqueda de incidencias");
+    if (isNaN(desdeIncidencia) == true || isNaN(hastaIncidencia) == true) {
+        console.log("el número de violaciones indicado tiene que ser numérico");
+        response.send(404);
+    }
+    else {
+        db.find({}).toArray((error, data) => {
+
+            if (error)
+                response.sendStatus(500);
+            else {
+
+                if (checkdb(data) == false)
+                    response.sendStatus(500);
+
+                else {
+
+                    data.filter((x) => {
+                        return (x["number-of-rape"] >= parseInt(desdeIncidencia) && x["number-of-rape"] <= parseInt(hastaIncidencia));
+                    }).map((x) => {
+                        return res.push(x);
+                    });
+
+                    if (res.length == 0)
+                        response.sendStatus(404);
+                    else
+                        response.send(res);
+                }
+            }
+        });
+    }
+};
+
+var busquedaPorcentaje = function(response, fromRate, toRate) {
+    var res = [];
+    console.log("hemos entrado en la busqueda de porcentajes");
+    if (isNaN(fromRate) == true || isNaN(toRate) == true) {
+        console.log("el porcentaje buscado tiene que ser numérico");
+        response.send(404);
+    }
+    else {
+        db.find({}).toArray((error, data) => {
+            if (error)
+                response.sendStatus(500);
+            else {
+
+                if (checkdb(data) == false)
+                    response.sendStatus(500);
+
+                else {
+
+                    data.filter((x) => {
+                        return (x.rate >= parseInt(fromRate) && x.rate <= parseInt(toRate));
+                    }).map((x) => {
+                        return res.push(x);
+                    });
+                    if (res.length == 0)
+                        response.sendStatus(404);
+                    else
+                        response.send(res);
+                }
+            }
+        });
+    }
+};
+
+var buscarTotal = (response, desdeTotal, hastaTotal) => {
+    var res = [];
+    console.log("hemos entrado en el busqueda de totales");
+    if (isNaN(desdeTotal) == true || isNaN(hastaTotal) == true) {
+        console.log("el porcentaje buscado tiene que ser numérico");
+        response.send(404);
+    }
+    else {
+
+        db.find({}).toArray((error, data) => {
+
+            if (error)
+                response.sendStatus(500);
+            else {
+
+                if (checkdb(data) == false)
+                    response.sendStatus(500);
+                else {
+
+                    data.filter((x) => {
+                        return x["total-since-two-thousand"] >= parseInt(desdeTotal) &&
+                            x["total-since-two-thousand"] <= parseInt(hastaTotal);
+                    }).map((x) => {
+                        return res.push(x);
+                    });
+
+                    if (res.length == 0)
+                        response.sendStatus(404);
+
+                    else
+                        response.send(res);
+                }
+            }
+        });
+    }
 };
