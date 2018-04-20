@@ -1,0 +1,26 @@
+<h2>Edit rape data</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Country</th>
+            <th>Year</th>
+            <th>Number of rape</th>
+            <th>Rate</th>
+            <th>Total Since two thousand</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{updateData.country}}</td>
+            <td>{{updateData.year}}</td>
+            <td><input class="form-control" ng-model="updateData['number-of-rape']" /></td>
+            <td><input class="form-control" ng-model="updateData.rate" /></td>
+            <td><input class="form-control" ng-model="updateData['total-since-two-thousand']" /></td>
+
+            <td><button class="btn btn-primary" ng-click="actualizaData(updateData)">Update data </button></td>
+
+        </tr>
+    </tbody>
+</table> s
