@@ -76,7 +76,7 @@
 
                     <th class="table-primary"><button id="borradoTotal" class="btn btn-danger" ng-click="borradoTotal()">Delete All</button></th>
 
-                    <td class="table-primary"><a href="#!/api/v1/secure/rape-stats"><button class="btn btn-secondary" >Go secure version</button></a></td>
+                    <td class="table-primary"><a href="#!/api/v2/secure/rape-stats"><button class="btn btn-secondary" >Go secure version</button></a></td>
 
 
                     <th class="table-warning" id="limit">LIMIT: <input style="width:150px " class="form-control" ng-model="limit"></input>
@@ -118,21 +118,33 @@
                 <simple-pagination current-page="settings.currentPage" offset="settings.offset" page-limit="settings.pageLimit" page-limits="settings.pageLimits" on-update="callback()" total="items.length">
                 </simple-pagination>
 
-                <tr ng-repeat="data in (database | limitTo:settings.pageLimit:settings.offset)">
+                <tr ng-repeat="data in database">
                     <td>{{data.country}}</td>
                     <td>{{data.year}}</td>
                     <td>{{data["number-of-rape"]}}</td>
                     <td>{{data.rate}}</td>
                     <td>{{data["total-since-two-thousand"]}}</td>
-                    <td><a href="#!/api/v1/rape-stats/edit/{{data.country}}/{{data.year}}"><button class="btn btn-secondary" >Edit</button></a></td>
+                    <td><a href="#!/api/v2/rape-stats/edit/{{data.country}}/{{data.year}}"><button class="btn btn-secondary" >Edit</button></a></td>
                     <td><button id="borrarDato" class="btn-danger" ng-click="borrarDato(data.country,data.year)">Delete</button></td>
                 </tr>
-               
+
             </tbody>
 
         </table>
 
-    </div>
+        </table>
+
+        <div id="numberPagination" disabled=true>
+            <table>
+                <td><button class="btn btn-info" ng-click="previousPage(currentPage-1)" ng-disabled="currentPage==1 || currentPage==null">Prev</button></td>
+                <td ng-repeat="page in pages">
+                    <a><button class="btn btn-info" ng-click="newPage(page)" ng-disabled ="currentPage == page" >{{page}}</button></a>
+                </td>
+                <td><button class="btn btn-info" ng-click="nextPage(currentPage+1)" ng-disabled="currentPage == pages.length">Next</button></td>
+            </table>
+
+
+        </div>
 
 </body>
 

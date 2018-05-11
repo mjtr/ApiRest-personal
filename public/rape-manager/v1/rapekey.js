@@ -806,7 +806,7 @@ var busquedaPais = function(response, pais) {
     console.log("Hemos entrado en la búsqueda por países");
     if (isNaN(pais) == false) {
         console.log("el país que has puesto no está formado por caracteres");
-        response.send(404);
+        response.sendStatus(404);
     }
     else {
         db.find({ country: pais }).toArray((error, data) => {
@@ -929,7 +929,6 @@ var buscarTotal = (response, desdeTotal, hastaTotal) => {
         });
     }
 };
-
 /*******Búsquedas con limit y offset **********/
 /*
 var busquedaYearPag = function(response, desde, hasta, limit, offset) {

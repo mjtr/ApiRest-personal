@@ -673,7 +673,7 @@ var busquedaPais = function(response, pais) {
     console.log("Hemos entrado en la búsqueda por países");
     if (isNaN(pais) == false) {
         console.log("el país que has puesto no está formado por caracteres");
-        response.send(404);
+        response.sendStatus(404);
     }
     else {
         db.find({ country: pais }).toArray((error, data) => {
@@ -698,7 +698,7 @@ var busquedaIncidencia = function(response, desdeIncidencia, hastaIncidencia) {
     console.log("hemos entrado en la busqueda de incidencias");
     if (isNaN(desdeIncidencia) == true || isNaN(hastaIncidencia) == true) {
         console.log("el número de violaciones indicado tiene que ser numérico");
-        response.send(404);
+        response.sendStatus(404);
     }
     else {
         db.find({}).toArray((error, data) => {
@@ -733,7 +733,7 @@ var busquedaPorcentaje = function(response, fromRate, toRate) {
     console.log("hemos entrado en la busqueda de porcentajes");
     if (isNaN(fromRate) == true || isNaN(toRate) == true) {
         console.log("el porcentaje buscado tiene que ser numérico");
-        response.send(404);
+        response.sendStatus(404);
     }
     else {
         db.find({}).toArray((error, data) => {
@@ -766,7 +766,7 @@ var buscarTotal = (response, desdeTotal, hastaTotal) => {
     console.log("hemos entrado en el busqueda de totales");
     if (isNaN(desdeTotal) == true || isNaN(hastaTotal) == true) {
         console.log("el porcentaje buscado tiene que ser numérico");
-        response.send(404);
+        response.sendStatus(404);
     }
     else {
 

@@ -3,7 +3,7 @@
 angular.module("managerApp")
 .controller("rapeSecureEditCtrl",["$scope","$http","$routeParams","$location",function($scope,$http,$routeParams,$location){
     console.log("Edit controller initialized");
-    $scope.url  = "api/v1/secure/rape-stats/";
+    $scope.url  = "api/v2/secure/rape-stats/";
     console.log("la apikey es " + $scope.apikey);
     
     
@@ -43,7 +43,7 @@ angular.module("managerApp")
                             alert("OK");
                             break;
                     }
-                    $location.path("/api/v1/secure/rape-stats");
+                    $location.path("/api/v2/secure/rape-stats");
 
                 });
         };

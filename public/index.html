@@ -1,27 +1,58 @@
 <!DOCTYPE html>
-<html ng-app = "managerApp">
+<html ng-app="managerApp">
 
 
 <head>
 
-   <!-- <script type="text/javascript" src="/bower_components/bootstrap/dist/css/bootstrap.min.css"></script> -->
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
     <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
     <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="/bower_components/angular-route/angular-route.min.js"></script>
     <script type="text/javascript" src="/bower_components/angularUtils-pagination/dirPagination.js"></script>
 
     <script type="text/javascript" src="/managerApp.js"></script>
+    
+    
+    
     <script type="text/javascript" src="/rape-manager/front-end/normal/rapeListCtrl.js"></script>
     <script type="text/javascript" src="/rape-manager/front-end/normal/rapeEditCtrl.js"></script>
     <script type="text/javascript" src="/rape-manager/front-end/secure/rapeSecureListCtrl.js"></script>
     <script type="text/javascript" src="/rape-manager/front-end/secure/rapeSecureEditCtrl.js"></script>
+    <script type="text/javascript" src="/rape-manager/analytics/rapeGeoCtrl.js"></script>
+    <script type="text/javascript" src="/rape-manager/analytics/rapeHighCtrl.js"></script>
+    <script type="text/javascript" src="/rape-manager/analytics/rapeRGraphCtrl.js"></script>
 
+
+    <!-- Scripts para usar RGraph -->
+
+    <script src="/bower_components/RGraph/libraries/RGraph.svg.common.core.js"></script>
+    <script src="/bower_components/RGraph/libraries/RGraph.svg.line.js"></script>
+    <script src="/bower_components/RGraph/libraries/RGraph.svg.bar.js"></script>
+    <script src="/bower_components/RGraph/libraries/RGraph.svg.hbar.js"></script>
+    <script src="/bower_components/RGraph/libraries/RGraph.svg.common.key.js"></script>
+
+    <!-- Scripts para usar highcharts-->
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/heatmap.js"></script>
+    <script src="https://code.highcharts.com/modules/treemap.js"></script>
+
+    <!-- Scripts para usar googleGeo-->
+
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 
 
 </head>
+
+<body>
+    <div ng-view>
+
+    </div>
+
+</body>
+
 
 
 

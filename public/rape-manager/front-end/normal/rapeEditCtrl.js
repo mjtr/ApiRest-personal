@@ -3,7 +3,7 @@
 angular.module("managerApp")
 .controller("rapeEditCtrl",["$scope","$http","$routeParams","$location",function($scope,$http,$routeParams,$location){
     console.log("Edit controller initialized");
-    $scope.url  = "api/v1/rape-stats/";
+    $scope.url  = "/api/v2/rape-stats/";
 
     function refresh(){
         $http
@@ -32,13 +32,13 @@ angular.module("managerApp")
                     console.log("Stat Updated 2");
                     switch (response.status) {
                         case 400:
-                            alert("Please fill all the fields");
+                            alert("Bad request");
                             break;
                         default:
                             alert("OK");
                             break;
                     }
-                    $location.path("/api/v1/rape-stats");
+                    $location.path("/api/v2/rape-stats");
 
                 });
         };
