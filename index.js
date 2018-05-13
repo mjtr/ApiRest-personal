@@ -2,8 +2,12 @@ var express = require("express");
 var path = require("path");
 var port = (process.env.PORT || 16778);
 var bodyParser = require("body-parser");
+var cors = require("cors");
+var request= require("request");
+
 
 var app = express();
+app.use(cors());
 
 
 app.use("/", express.static(path.join(__dirname, "public")));
@@ -14,6 +18,17 @@ app.listen(port, () => {
 }).on("error", (e) => {
     console.log("Server can noy be started " + e);
     process.exit(1);
+});
+
+/******PROXY*******/
+
+var apiServerHostDivorce = "https://sos1718-08.herokuapp.com/api/v1/divorces-an";
+
+app.use("/proxyDivorce", (req, res) =>{
+    
+    var url = apiServerHostDivorce + req.url ; 
+    
+    req.pipe(request(url)).pipe(res);
 });
 
 

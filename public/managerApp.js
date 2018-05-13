@@ -49,6 +49,36 @@ angular.module("managerApp",["ngRoute", 'angularUtils.directives.dirPagination']
             templateUrl: "/rape-manager/analytics/rapeRGraph.html",
             controller: "rapeRGraphCtrl"
             
+        }).when("/analytics/proxyRD",{
+            
+            templateUrl: "/rape-manager/analytics/integrations/proxyRD.html",
+            controller: "proxyRDCtrl"
+            
+        }).when("/analytics/normalRW",{
+            
+            templateUrl: "/rape-manager/analytics/integrations/normalRW.html",
+            controller: "normalRWCtrl"
+            
+        }).when("/analytics/mashape1",{
+            
+            templateUrl: "/rape-manager/analytics/integrations/mashape1.html",
+            controller: "mashape1Ctrl"
+            
+        }).when("/analytics/mashape2",{
+            
+            templateUrl: "/rape-manager/analytics/integrations/mashape2.html",
+            controller: "mashape2Ctrl"
+            
+        }).when("/analytics/progweb1",{
+            
+            templateUrl: "/rape-manager/analytics/integrations/ProgWeb1.html",
+            controller: "ProgWeb1Ctrl"
+            
+        }).when("/analytics/progweb2",{
+            
+            templateUrl: "/rape-manager/analytics/integrations/ProgWeb2.html",
+            controller: "ProgWeb2Ctrl"
+            
         });
         
         

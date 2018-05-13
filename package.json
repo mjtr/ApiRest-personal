@@ -19,9 +19,11 @@
   "homepage": "https://github.com/mjtr/sos-personal#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
     "express": "^4.16.3",
     "mongodb": "^3.0.4",
     "nedb": "^1.8.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "request": "^2.85.0"
   }
 }

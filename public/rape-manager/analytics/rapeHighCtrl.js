@@ -18,7 +18,6 @@ angular
         $http
             .get("/api/v2/rape-stats")
             .then(function(response) {
-                $scope.data = response.data;
 
                 for (var i = 0; i < response.data.length; i++) {
                     var x = response.data[i];
@@ -55,6 +54,7 @@ angular
                     years.sort((x, y) => { return x > y; });
 
                 }
+
 
                 Highcharts.chart('rapeHighcharts', {
                     chart: {
@@ -106,22 +106,23 @@ angular
                     credits: {
                         enabled: false
                     },
-                    series: 
-                        
+                    series:
+
                         [{
-                        name: 'Total Rapes',
-                        data:totalDivCountry
-                    },
-                    {
-                        name: 'Number of rapes',
-                        data:rapesDiv
-                    },{
-                        name: 'Rate',
-                        data:rate
-                    },{
-                        name: 'Year',
-                        data:years.map((x)=>{return x/1000})
-                    }]
+                                name: 'Total Rapes',
+                                data: totalDivCountry
+                            },
+                            {
+                                name: 'Number of rapes',
+                                data: rapesDiv
+                            }, {
+                                name: 'Rate',
+                                data: rate
+                            }, {
+                                name: 'Year',
+                                data: years.map((x) => { return x / 1000 })
+                            }
+                        ]
                 });
 
             });
