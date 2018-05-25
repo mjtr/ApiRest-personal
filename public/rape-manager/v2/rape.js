@@ -16,7 +16,7 @@ mongoClient.connect(mongoURL, { native_parser: true }, (error, database) => {
 
     db = database.db("rape-personal-1718").collection("rape-stats");
 
-    console.log("la base de datos ha sido conectada con éxito");
+    //console.log("la base de datos ha sido conectada con éxito");
 
 });
 

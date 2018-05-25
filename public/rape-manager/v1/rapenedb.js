@@ -134,7 +134,8 @@ module.exports.getInitialData = (request, response) => {
 
                     }]);
 
-                    console.log("La base de datos se ha creado correctamente");
+                    
+                console.log("La base de datos se ha creado correctamente");
                     response.sendStatus(201);
                 }
             }

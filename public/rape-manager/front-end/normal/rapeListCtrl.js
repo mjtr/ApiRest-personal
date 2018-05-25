@@ -1,9 +1,16 @@
 /*global angular*/
+/*global OAuth*/
+
 angular.module("managerApp").controller("rapeListCtrl", ["$scope", "$http", function($scope, $http) {
 
     console.log("rapeListCtrl  ok");
     $scope.url = "/api/v2/rape-stats";
     refresh();
+    OAuth.initialize("apikeysos1718");
+
+
+    //Using popup (option 1)
+  
 
     $scope.loadInitialData = function() {
 
@@ -20,6 +27,12 @@ angular.module("managerApp").controller("rapeListCtrl", ["$scope", "$http", func
     };
 
     function refresh() {
+        
+        
+          OAuth.popup('facebook')
+        .done(function(result) {
+           console.log("hemos entrado oauth");
+      
         $http
             .get($scope.url)
 
@@ -32,6 +45,11 @@ angular.module("managerApp").controller("rapeListCtrl", ["$scope", "$http", func
                 $scope.database = [];
 
             });
+            
+        })
+        .fail(function(error) {
+            //handle error with err
+        });
     }
 
     $scope.borradoTotal = function() {

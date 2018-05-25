@@ -3,12 +3,10 @@ var path = require("path");
 var port = (process.env.PORT || 16778);
 var bodyParser = require("body-parser");
 var cors = require("cors");
-var request= require("request");
-
+var request = require("request");
 
 var app = express();
 app.use(cors());
-
 
 app.use("/", express.static(path.join(__dirname, "public")));
 app.use(bodyParser.json());
@@ -24,10 +22,10 @@ app.listen(port, () => {
 
 var apiServerHostDivorce = "https://sos1718-08.herokuapp.com/api/v1/divorces-an";
 
-app.use("/proxyDivorce", (req, res) =>{
-    
-    var url = apiServerHostDivorce + req.url ; 
-    
+app.use("/proxyDivorce", (req, res) => {
+
+    var url = apiServerHostDivorce + req.url;
+
     req.pipe(request(url)).pipe(res);
 });
 
@@ -162,3 +160,53 @@ app.delete(url, rapekey22.deleteAll);
 app.delete(url + "/:name/:year", rapekey22.deleteData);
 
 
+/***JWT*****/
+var rjwt = require("./public/rape-manager/JWT/jwt.js");
+
+app.get("/api/createUser", rjwt.postLoginData);
+
+app.get("/api/jwt/rape-stats/loadInitialData", verifyToken, rjwt.getTokenInitialData);
+app.get("/api/jwt/rape-stats", verifyToken, rjwt.getTokenAllData);
+app.get("/api/jwt/rape-stats/:name/:year", verifyToken, rjwt.getTokenSingleDataNameYear);
+app.get("/api/jwt/rape-stats/:name", verifyToken, rjwt.getTokenData);
+
+/**Post**/
+
+app.post("/api/jwt/rape-stats", verifyToken, rjwt.postTokenDataGroup);
+app.post("/api/jwt/rape-stats" + ":name", verifyToken, rjwt.postTokenDenied);
+app.post("/api/jwt/rape-stats" + " :name/:year", verifyToken, rjwt.postTokenDenied);
+
+/***Put****/
+
+app.put("/api/jwt/rape-stats", rjwt.putTokenDenied);
+app.put("/api/jwt/rape-stats" + "/:name", verifyToken, rjwt.putTokenDenied);
+app.put("/api/jwt/rape-stats" + "/:name/:year", verifyToken, rjwt.putTokenSingleData);
+
+/***Delete**/
+
+app.delete("/api/jwt/rape-stats", verifyToken, rjwt.deleteTokenAll);
+app.delete("/api/jwt/rape-stats" + "/:name/:year", verifyToken, rjwt.deleteTokenData);
+
+
+// FORMAT OF TOKEN
+// Authorization: Bearer <access_token>
+// Verify Token
+function verifyToken(req, res, next) {
+    // Get auth header value
+    var bearerHeader = req.headers['authorization'];
+    // Check if bearer is undefined
+    if (typeof bearerHeader !== 'undefined') {
+        // Split at the space
+        var bearer = bearerHeader.split(',');
+        // Get token from array
+        var bearerToken = bearer[1];
+        // Set the token
+        req.token = bearerToken;
+        // Next middleware
+        next();
+    }
+    else {
+        // Forbidden
+        res.sendStatus(403);
+    }
+}
