@@ -1,20 +1,34 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html>
   <head>
     <meta charset="utf-8">
     <title>Google SignIn</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <meta name="google-signin-client_id" content="29660131574-t49c2v4k2q5osnqhs8s3q2ud6sfpr1kk.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 <style>
   .g-signin2{
     margin-left:500px;
     margin-top:200px;
+  }
+  .data{
+    display:none;
   }
 </style>
   </head>
   <body>
 
 <div class="g-signin2" data-onsuccess="onSignIn"></div>
-
+<div class="data">
+    <p>Profile details</p>
+    <img id = "pic"class = "img-circle" width="100" height="100">
+    <p>Email address</p>
+    <p id = "email" class = "alert alert-danger"></p>
+    <button onclick="signOut()" class="btn btn-danger"> Sign Out</button>
+</div>
 
 <a href="#" onclick="signOut();">Sign out</a>
 
