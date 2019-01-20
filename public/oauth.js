@@ -13,7 +13,7 @@
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
     var aux2 = googleUser.getAuthResponse(true);
-    console.log(aux2.access_token());
+    console.log(aux2);
   }
 
   function signOut() {
