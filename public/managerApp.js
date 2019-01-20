@@ -9,13 +9,13 @@ angular.module("managerApp",["ngRoute", 'angularUtils.directives.dirPagination']
 
         }).when("/api/v2/rape-stats",{
 
-            templateUrl: "/oauth.html",
-            controller: "oauthCtrl"
+            templateUrl: "/rape-manager/front-end/normal/rapeList.html",
+            controller: "rapeListCtrl"
 
         }).when("/oauth",{
 
-            templateUrl: "/rape-manager/front-end/normal/rapeList.html",
-            controller: "rapeListCtrl"
+            templateUrl: "/oauth.html",
+            controller: "oauthCtrl"
 
         }).when("/api/v2/rape-stats/edit/:country/:year", {
 
