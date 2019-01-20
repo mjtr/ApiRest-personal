@@ -6,10 +6,14 @@
     $("#pic").attr('src', profile.getImageUrl());
     $("email").text(profile.getEmail());
 
+
     console.log('ID: ' + profile.getId());
     console.log('Name: ' + profile.getName());
     console.log('Image URL: ' + profile.getImageUrl());
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+    var aux2 = googleUser.getAuthResponse(true);
+    console.log(aux2.access_token());
   }
 
   function signOut() {
