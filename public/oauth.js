@@ -1,6 +1,3 @@
-/*global angular*/
-
-angular.module("managerApp").controller("oauthCtrl", ["$scope", "$http", function($scope, $http) {
 
   function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
@@ -24,5 +21,3 @@ angular.module("managerApp").controller("oauthCtrl", ["$scope", "$http", functio
       console.log('User signed out.');
     });
 }
-
-}]);
