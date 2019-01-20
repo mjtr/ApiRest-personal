@@ -2,32 +2,21 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>OAUTH authenticate</title>
-    <h1>Sign in with you google account</h1>
+    <title>Google SignIn</title>
+    <meta name="google-signin-client_id" content="29660131574-t49c2v4k2q5osnqhs8s3q2ud6sfpr1kk.apps.googleusercontent.com">
+<style>
+  .g-signin2{
+    margin-left:500px;
+    margin-top:200px;
+  }
+</style>
   </head>
   <body>
-<meta name="google-signin-client_id" content="29660131574-h58bb1e129qpldlho87kau5e6hapg416.apps.googleusercontent.com">
 
 <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
-<script>
-  function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId());
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  }
-</script>
 
 <a href="#" onclick="signOut();">Sign out</a>
-<script>
-  function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log('User signed out.');
-    });
-  }
-</script>
+
   </body>
 </html>
