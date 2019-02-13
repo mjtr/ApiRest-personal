@@ -159,7 +159,7 @@ app.put(url + "/:name/:year", rapekey22.putSingleData);
 app.delete(url, rapekey22.deleteAll);
 app.delete(url + "/:name/:year", rapekey22.deleteData);
 
-
+/*Accesos con Json Web Tokens*/
 /***JWT*****/
 var rjwt = require("./public/rape-manager/JWT/jwt.js");
 
