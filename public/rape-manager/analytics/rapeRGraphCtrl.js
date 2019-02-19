@@ -6,21 +6,21 @@ angular
 
         var years = [];
         var countries = [];
-        var total = [];
-        var rapes = [];
         var rateCountry = [];
 
         var totalDivYear = [];
         var totalDivCountry = [];
         var rapesDiv = [];
 
+
         $http
             .get("/api/v2/rape-stats")
 
-            .then(function successCallback(response) {
+            .then(function(response) {
 
 
                 for (var i = 0; i < response.data.length; i++) {
+
                     var x = response.data[i];
 
                     if (years.includes(x.year) == false) {
@@ -35,95 +35,45 @@ angular
 
                     if (countries.includes(x.country)) {
                         var y = countries.indexOf(x.country);
-                        rapes[y] = rapes[y] + x["number-of-rape"];
                         rapesDiv[y] = rapesDiv[y] + (parseInt(x["number-of-rape"] / 1000));
                         totalDivCountry[y] = totalDivCountry[y] + parseInt((x["total-since-two-thousand"] / 1000));
-                        total[y] = total[y] + (x["total-since-two-thousand"]);
                         rateCountry[y] = x.rate;
 
 
                     }
                     else {
-                        rapes.push(x["number-of-rape"]);
                         countries.push(x.country);
                         rapesDiv.push(parseInt(x["number-of-rape"] / 1000));
                         totalDivCountry.push(parseInt(x["total-since-two-thousand"] / 1000));
-                        total.push(x["total-since-two-thousand"]);
                         rateCountry.push(x.rate);
 
                     }
                     years.sort((x, y) => { return x > y; });
 
                 }
+                var data = [
+                    [rapesDiv[0], rateCountry[0], totalDivCountry[0], countries[0]],
+                    [rapesDiv[1], rateCountry[1], totalDivCountry[1], countries[1]],
+                    [rapesDiv[2], rateCountry[2], totalDivCountry[2], countries[2]],
+                    [rapesDiv[3], rateCountry[3], totalDivCountry[3], countries[3]],
+                    [rapesDiv[4], rateCountry[4], totalDivCountry[4], countries[4]],
+                    [rapesDiv[5], rateCountry[5], totalDivCountry[5], countries[5]],
+                    [rapesDiv[6], rateCountry[6], totalDivCountry[6], countries[6]],
 
-                var line = new RGraph.SVG.Line({
-                    id: 'rapeyear',
-                    data: totalDivYear,
+                ];
+
+                var gantt = new RGraph.Gantt({
+                    id: 'cvs',
+                    data: data,
                     options: {
-                        colors: ['white'],
-                        linewidth: 5,
-                        backgroundGridColor: '#666',
-                        backgroundGridVlinesCount: years.length,
-                        backgroundColor: 'black',
-                        xaxis: false,
-                        xaxisTickmarks: false,
-                        xaxisLabels: years,
-                        xaxisLabelsPosition: 'section',
-                        yaxisTickmarks: false,
-                        yaxis: true,
-                        spline: true,
-                        filled: true,
-                        filledColors: ['Gradient(rgba(255,0,0,0.75):rgba(255,0,0,0.5):rgba(255,0,0,0))']
+                        labels: years,
+                        xmax: 122,
+                        labelsPercent: true,
+                        textAccessible: true
                     }
-                }).trace();
+                });
 
-                line.svg.style.borderTopLeftRadius = '25px';
-                line.svg.style.borderBottomRightRadius = '25px';
-
-                /***Segunda tabla**/
-
-                new RGraph.SVG.Line({
-                    id: 'chart-container',
-                    data: [rapesDiv, totalDivCountry],
-                    options: {
-                        xaxisLabels: countries,
-                        filled: true,
-                        filledColors: ['transparent', 'rgba(0,255,0,0.25'],
-                        filledAccumulative: true,
-                        colors: ['green', 'green'],
-                        spline: true,
-                        linewidth: 2,
-                        backgroundGridVlines: false,
-                        backgroundGridBorder: false,
-                        xaxis: false,
-                        yaxis: true
-                    }
-                }).trace();
-
-                /***Tercera tabla***/
-
-                var colors = ['orange', '#c00'];
-
-                RGraph.SVG.GLOBALS.colors = colors;
-
-                var hbar1 = new RGraph.SVG.HBar({
-                    id: 'cc2',
-                    data: rateCountry,
-                    options: {
-                        key: ['rapes rate per country'],
-                        yaxisLabels: countries,
-                        grouping: 'stacked',
-                        strokestyle: 'white',
-                        textSize: 8,
-                        backgroundGridHlines: false,
-                        backgroundGridBorder: false,
-                        xaxis: false,
-                        yaxisTickmarks: false,
-                        vmargin: 7
-                    }
-                }).draw();
-
-
+                gantt.draw();
 
 
             }, function errorCallback(response) {

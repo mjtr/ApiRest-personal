@@ -1,40 +1,55 @@
 <!DOCTYPE html>
 <html>
 
+<head>
+  <title>RGraph</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+</head>
+
 <body>
+  <div ng-controller="rapeListCtrl">
 
-
-    <li>
-
-        <ul>
-            <h1>TOTAL Rapes*1000 && Year</h1>
+    <nav>
+      <div class="nav-wrapper">
+        <ul id="nav" class="left hide-on-med-and-down">
+          <li><a href="#">
+              <h3>Home</h3>
+            </a></li>
+          <li><a href="https://personal-sos1718.herokuapp.com/#!/api/v2/rape-stats">
+              <h3>Front-end</h3>
+            </a></li>
+          <li><a href="https://personal-sos1718.herokuapp.com/#!/analytics">
+              <h3>Graphs</h3>
+            </a></li>
+          <li><a href="https://documenter.getpostman.com/view/360397/collection/RVu1GWFS">
+              <h3>Docs</h3>
+            </a></li>
+          <li><a href="https://personal-sos1718.herokuapp.com/#!/contacto">
+              <h3>Contacto</h3>
+            </a></li>
         </ul>
+      </div>
+    </nav>
 
-        <ul>
-            <div style="min-width: 310px;height: 500px; margin: 0 auto" id="rapeyear"></div>
-        </ul>
+<div class="jumbotron">
 
-        <ul>
-            <h1>Number of rapes and Total Rapes * 1000 && Countries</h1>
-        </ul>
+  <div class="container">
 
-        <ul>
-            <div style="width: 1200x; height: 500px" id="chart-container"></div>
-        </ul>
+    <h2> <strong> Gantt rapes rgraph </strong></h2>
 
-        <ul>
-            <h1>Rate && Countries</h1>
-        </ul>
+        <canvas id="cvs" width="1000" height="600"></canvas>
 
-        <ul>
-                <ul><div style="width: 700px; height: 500px" id="cc2"></div> </ul>
 
-            <div style="clear: both"></div>
-        </ul>
-    </li>
+  </div>
+
+  <button type="button" name="button"> <a href="https://personal-sos1718.herokuapp.com/#!/analytics"> <strong> Volver </strong></a> </button>
+
+
+</div>
+
 
 
 </body>
-
 
 </html>

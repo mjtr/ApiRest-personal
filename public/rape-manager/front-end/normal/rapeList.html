@@ -2,149 +2,222 @@
 <html ng-app="managerApp">
 
 <head>
-    <br/>
-    <h1>Rape Stats Api</h1>
 
+  <title>Front-end</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
 </head>
 
 <body>
-    <div ng-controller="rapeListCtrl">
-        <table class="table table-sm">
-            <thead class="thead-dark">
+  <div ng-controller="rapeListCtrl">
 
-                <tr>
-                    <th>
-                        SEARCHS
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th id="buscarYearFrom">From year: <input style="width:100px " class="form-control" ng-model="from"></input>
-                    </th>
-                    <th id="buscarYearTo">To year: <input style="width:100px" class="form-control" ng-model="to"></input>
-                    </th>
-                    <th> <button class="btn btn-info" ng-click="searchYear(from,to)">Search year</button></th>
+    <nav>
+      <div class="nav-wrapper">
+        <ul id="nav" class="left hide-on-med-and-down">
+          <li><a href="#">
+              <h3>Home</h3>
+            </a></li>
+          <li><a href="https://personal-sos1718.herokuapp.com/#!/api/v2/rape-stats">
+              <h3>Front-end</h3>
+            </a></li>
+          <li><a href="https://personal-sos1718.herokuapp.com/#!/analytics">
+              <h3>Graphs</h3>
+            </a></li>
+          <li><a href="https://documenter.getpostman.com/view/360397/collection/RVu1GWFS">
+              <h3>Docs</h3>
+            </a></li>
+            <li><a href="https://personal-sos1718.herokuapp.com/#!/contacto">
+                <h3>Contacto</h3>
+              </a></li>
+        </ul>
+      </div>
+    </nav>
 
-                    <th id="buscarCountry">Country name: <input style="width:100px " class="form-control" ng-model="name"></input>
-                    </th>
-                    <th> <button class="btn btn-info" ng-click="searchCountry(name)">Search Country</button></th>
+    <div class="float-right">
+
+      <table>
+        <tr>
+
+          <th>
+            <h4>Search:</h4>
+          </th>
+          <th> <label>
+              <input ng-model="searchText" placeholder="  Ej: france">
+            </label> </th>
+          <th> <img src="/pictures/divider.png" style="width:170px; height:100px" alt="try"> </th>
+          <th id="limit"> <input style="width:150px " class="form-control" ng-model="limit" placeholder="  Ej: 2"></input>
+          <th> <button class="btn btn-warning" ng-click="pagination(limit)">pagination</button></th>
+
+        </tr>
+
+      </table>
+    </div>
+
+    <table id="searchTextResults" class="table table-striped">
+
+      <thead style="background-color:#FEF4FE">
 
 
-                </tr>
-                <tr>
-                    <th id="buscarRapeFrom">From rape: <input style="width:150px " class="form-control" ng-model="fromRape"></input>
-                    </th>
-                    <th id="buscarRapeTo">To rape: <input style="width:150px" class="form-control" ng-model="toRape"></input>
-                    </th>
-                    <th> <button class="btn btn-info" ng-click="searchRape(fromRape,toRape)">Search Rape</button></th>
-
-                    <th id="buscarRateFrom">From rate: <input style="width:150px " class="form-control" ng-model="fromRate"></input>
-                    </th>
-                    <th id="buscarRateTo">To rate: <input style="width:150px" class="form-control" ng-model="toRate"></input>
-                    </th>
-                    <th> <button class="btn btn-info" ng-click="searchRate(fromRate,toRate)">Search Rate</button></th>
+        <tr>
+          <th> Country </th>
+          <th> Year </th>
+          <th> Number of rape </th>
+          <th> Rate </th>
+          <th> Total since two thousand </th>
+        </tr>
+      </thead>
+      <tbody>
 
 
-                </tr>
-                <tr>
-                    <th id="buscarTotalFrom">From total: <input style="width:150px " class="form-control" ng-model="fromTotal"></input>
-                    </th>
-                    <th id="buscarTotalTo">To total: <input style="width:150px" class="form-control" ng-model="toTotal"></input>
-                    </th>
-                    <th> <button class="btn btn-info" ng-click="searchTotal(fromTotal,toTotal)">Search Total</button></th>
+        <tr>
+          <td><input class="form-control" ng-model="newData.country" /></td>
+          <td><input class="form-control" ng-model="newData.year" /></td>
+          <td><input class="form-control" ng-model="newData['number-of-rape']" /></td>
+          <td><input class="form-control" ng-model="newData.rate" /></td>
+          <td><input class="form-control" ng-model="newData['total-since-two-thousand']" /></td>
+          <td><button class="btn btn-primary" ng-click="add(newData)">Add</button></td>
+        </tr>
+        <simple-pagination current-page="settings.currentPage" offset="settings.pageOffset" page-limit="settings.pageLimit" page-limits="settings.pageLimits" on-update="callback()" total="items.length">
+        </simple-pagination>
 
 
-                </tr>
-            </tbody>
+        <tr ng-repeat="data in database | filter:searchText">
+          <td>{{data.country}}</td>
+          <td>{{data.year}}</td>
+          <td>{{data["number-of-rape"]}}</td>
+          <td>{{data.rate}}</td>
+          <td>{{data["total-since-two-thousand"]}}</td>
+          <td><a href="#!/api/v2/rape-stats/edit/{{data.country}}/{{data.year}}"><button class="btn btn-secondary">Edit</button></a></td>
+          <td><button id="borrarDato" class="btn-danger" ng-click="borrarDato(data.country,data.year)">Delete</button></td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+
+
+    </table>
+
+    <!--
+
+Esta era la antigua forma de hacer una búsqueda. Ahora la hago directamente con angular sin necesidad de más código en el controlador
+
+    <table class="table table-sm">
+      <thead class="thead-dark">
+
+        <tr>
+          <th>
+            SEARCHS
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th id="buscarYearFrom">From year: <input style="width:100px " class="form-control" ng-model="from"></input>
+          </th>
+          <th id="buscarYearTo">To year: <input style="width:100px" class="form-control" ng-model="to"></input>
+          </th>
+          <th> <button class="btn btn-info" ng-click="searchYear(from,to)">Search year</button></th>
+
+          <th id="buscarCountry">Country name: <input style="width:100px " class="form-control" ng-model="name"></input>
+          </th>
+          <th> <button class="btn btn-info" ng-click="searchCountry(name)">Search Country</button></th>
+
+
+        </tr>
+        <tr>
+          <th id="buscarRapeFrom">From rape: <input style="width:150px " class="form-control" ng-model="fromRape"></input>
+          </th>
+          <th id="buscarRapeTo">To rape: <input style="width:150px" class="form-control" ng-model="toRape"></input>
+          </th>
+          <th> <button class="btn btn-info" ng-click="searchRape(fromRape,toRape)">Search Rape</button></th>
+
+          <th id="buscarRateFrom">From rate: <input style="width:150px " class="form-control" ng-model="fromRate"></input>
+          </th>
+          <th id="buscarRateTo">To rate: <input style="width:150px" class="form-control" ng-model="toRate"></input>
+          </th>
+          <th> <button class="btn btn-info" ng-click="searchRate(fromRate,toRate)">Search Rate</button></th>
+
+
+        </tr>
+        <tr>
+          <th id="buscarTotalFrom">From total: <input style="width:150px " class="form-control" ng-model="fromTotal"></input>
+          </th>
+          <th id="buscarTotalTo">To total: <input style="width:150px" class="form-control" ng-model="toTotal"></input>
+          </th>
+          <th> <button class="btn btn-info" ng-click="searchTotal(fromTotal,toTotal)">Search Total</button></th>
+
+
+        </tr>
+      </tbody>
+    </table>
+-->
+
+
+
+
+    <div>
+
+      <div id="numberPagination" disabled=true class="float-left">
+        <table>
+          <td><button class="btn btn-info" ng-click="previousPage(currentPage-1)" ng-disabled="currentPage==1 || currentPage==null">Prev</button></td>
+          <td ng-repeat="page in pages">
+            <a><button class="btn btn-info" ng-click="newPage(page)" ng-disabled="currentPage == page">{{page}}</button></a>
+          </td>
+          <td><button class="btn btn-info" ng-click="nextPage(currentPage+1)" ng-disabled="currentPage == pages.length">Next</button></td>
         </table>
 
-        <table class="table">
+      </div>
+      <div class="float-right">
 
-            <thead class="thead-dark">
-                <tr>
-                    <th>
-                        ACTIONS:
-                    </th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr>
-                    <th class="table-primary"><button id="loadInitialData" class="btn btn-success" ng-click="loadInitialData()">Load Initial Data</button></th>
-
-                    <th class="table-primary"><button id="borradoTotal" class="btn btn-danger" ng-click="borradoTotal()">Delete All</button></th>
-
-                    <td class="table-primary"><a href="#!/api/v2/secure/rape-stats"><button class="btn btn-secondary" >Go secure version</button></a></td>
-
-
-                    <th class="table-warning" id="limit">LIMIT: <input style="width:150px " class="form-control" ng-model="limit"></input>
-                    </th>
-                    <th class="table-warning" id="offset">OFFSET: <input style="width:150px" class="form-control" ng-model="offset"></input>
-                    </th>
-                    <th class="table-warning"> <button class="btn btn-warning" ng-click="pagination(limit,offset)">pagination</button></th>
-
-                </tr>
-
-            </tbody>
-        </table>
+        <h4>Aditional Actions:</h4>
 
 
 
-        <table class="table">
 
-            <thead class="thead-dark">
+        <div class="float-right">
+          <br>
+          <table class="table">
 
+            <tr>
+              <th><button id="loadInitialData" class="btn btn-success" ng-click="loadInitialData()">Load Initial Data</button></th>
 
-                <tr>
-                    <th> Country </th>
-                    <th> Year </th>
-                    <th> Number of rape </th>
-                    <th> Rate </th>
-                    <th> Total since two thousand </th>
-                </tr>
-            </thead>
-            <tbody>
+              <th><button id="borradoTotal" class="btn btn-danger" ng-click="borradoTotal()">Delete All</button></th>
 
-                <tr>
-                    <td><input class="form-control" ng-model="newData.country" /></td>
-                    <td><input class="form-control" ng-model="newData.year" /></td>
-                    <td><input class="form-control" ng-model="newData['number-of-rape']" /></td>
-                    <td><input class="form-control" ng-model="newData.rate" /></td>
-                    <td><input class="form-control" ng-model="newData['total-since-two-thousand']" /></td>
-                    <td><button class="btn btn-primary" ng-click="add(newData)">Add</button></td>
-                </tr>
-                <simple-pagination current-page="settings.currentPage" offset="settings.offset" page-limit="settings.pageLimit" page-limits="settings.pageLimits" on-update="callback()" total="items.length">
-                </simple-pagination>
+              <td><a href="#!/api/v2/secure/rape-stats"><button class="btn btn-secondary">Go secure version</button></a></td>
 
-                <tr ng-repeat="data in database">
-                    <td>{{data.country}}</td>
-                    <td>{{data.year}}</td>
-                    <td>{{data["number-of-rape"]}}</td>
-                    <td>{{data.rate}}</td>
-                    <td>{{data["total-since-two-thousand"]}}</td>
-                    <td><a href="#!/api/v2/rape-stats/edit/{{data.country}}/{{data.year}}"><button class="btn btn-secondary" >Edit</button></a></td>
-                    <td><button id="borrarDato" class="btn-danger" ng-click="borrarDato(data.country,data.year)">Delete</button></td>
-                </tr>
-
-            </tbody>
-
-        </table>
-
-        </table>
-
-        <div id="numberPagination" disabled=true>
-            <table>
-                <td><button class="btn btn-info" ng-click="previousPage(currentPage-1)" ng-disabled="currentPage==1 || currentPage==null">Prev</button></td>
-                <td ng-repeat="page in pages">
-                    <a><button class="btn btn-info" ng-click="newPage(page)" ng-disabled ="currentPage == page" >{{page}}</button></a>
-                </td>
-                <td><button class="btn btn-info" ng-click="nextPage(currentPage+1)" ng-disabled="currentPage == pages.length">Next</button></td>
-            </table>
+              <!--
+          <th class="table-warning" id="limit">LIMIT: <input style="width:150px " class="form-control" ng-model="limit"></input>
+          </th>
 
 
+          <th class="table-warning" id="offset">OFFSET: <input style="width:150px" class="form-control" ng-model="offset"></input>
+          </th>
+          <th class="table-warning"> <button class="btn btn-warning" ng-click="pagination(limit,offset)">pagination</button></th>
+
+
+
+          <th class="table-warning"> <button class="btn btn-warning" ng-click="pagination(limit)">pagination</button></th>
+-->
+
+            </tr>
         </div>
+
+        </table>
+      </div>
+
+      <br>
+
+    </div>
+
+
+
+  </div>
+
+
+
 
 </body>
 

@@ -1,29 +1,253 @@
 <!DOCTYPE html>
 <html>
-<h1>Analytics url</h1>
+
+<head>
+
+  <title>Graphs</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+</head>
 
 <body>
 
-
-    <div> <br/>
-        <h5>-----------------------------------------</h5>
-
-        <h3>Manuel Jesus (Data: rape-stats) </h3>
-        <ul>
-            <li><a href=https://sos1718-12.herokuapp.com/#!/analytics/rape-stats/high>Highcharts</a></li>
-            <li><a href=https://sos1718-12.herokuapp.com/#!/analytics/rape-stats/geo> Geo Charts </a></li>
-            <li> <a href=https://sos1718-12.herokuapp.com/#!/analytics/rape-stats/rgraph>RGraphs</a> </li>
-            <li> <a href=https://sos1718-12.herokuapp.com/#!/analytics/proxyRD>Proxy</a> </li>
-            <li> <a href=https://sos1718-12.herokuapp.com/#!/analytics/normalRW>NormalCors</a> </li>
-            <li> <a href=https://sos1718-12.herokuapp.com/#!/analytics/mashape1>Mashape1</a> </li>
-            <li> <a href=https://sos1718-12.herokuapp.com/#!/analytics/mashape2>Mashape2</a> </li>
-            <li> <a href=https://sos1718-12.herokuapp.com/#!/analytics/progweb1>ProgWeb1</a> </li>
-
+    <nav>
+      <div class="nav-wrapper">
+        <ul id="nav" class="left hide-on-med-and-down">
+          <li><a href="#">
+              <h3>Home</h3>
+            </a></li>
+          <li><a href="https://personal-sos1718.herokuapp.com/#!/api/v2/rape-stats">
+              <h3>Front-end</h3>
+            </a></li>
+          <li><a href="https://personal-sos1718.herokuapp.com/#!/analytics">
+              <h3>Graphs</h3>
+            </a></li>
+          <li><a href="https://documenter.getpostman.com/view/360397/collection/RVu1GWFS">
+              <h3>Docs</h3>
+            </a></li>
+            <li><a href="https://personal-sos1718.herokuapp.com/#!/contacto">
+                <h3>Contacto</h3>
+              </a></li>
         </ul>
+      </div>
+    </nav>
+
+  <div class="jumbotron">
+
+
+
+
+
+
+    <div class="card-deck">
+      <div class="h-25 d-inline-block" style="width: 280px; background-color: rgba(0,0,255,.1)">
+
+        <div class="card">
+          <a href="https://personal-sos1718.herokuapp.com/#!/integrations/rape-stats/high">
+            <img class="card-img-top" src="/pictures/Highcharts2.jpg" style="width:250px; height:150px;" alt="Card image cap"></a>
+          <div class="card-body">
+            <h5 class="card-title"><strong>Highcharts</strong></h5>
+            <p class="card-text">Representanción de los datos del front-end usando el tipo "basic bar" de highcharts</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-25 d-inline-block" style="width: 280px;">
+
+        <div class="card" style="background-color:#F7F6F2">
+          <a href="https://personal-sos1718.herokuapp.com/#!/integrations/rape-stats/geo"> <img class="card-img-top" src="/pictures/geoCharts.png" style="width:250px; height:150px;" alt="Card image cap"> </a>
+          <div class="card-body">
+            <h5 class="card-title"><strong>Geo Charts</strong></h5>
+            <p class="card-text">Representando los datos del front-end usando geoCharts</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+      <div class="h-25 d-inline-block" style="width: 280px; background-color:#FDF5D5">
+
+        <div class="card" >
+          <a href="https://personal-sos1718.herokuapp.com/#!/integrations/ghibli"> <img class="card-img-top" src="/pictures/ghibli.jpg" style="width:250px; height:150px;" alt="Card image cap"> </a>
+          <div class="card-body">
+            <h5 class="card-title"> <strong> Estudio Ghibli </strong></h5>
+            <p class="card-text"> Integración de los datos del front-end con los datos de la puntuación de las películas del estudio Ghibli. Se hace uso de un Radar Char con Plotlyjs</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+
+      </div>
+
+
+
+      <div class="h-25 d-inline-block" style="width: 280px;">
+
+        <div class="card" style="background-color:#F7F6F2">
+          <a href="https://personal-sos1718.herokuapp.com/#!/integrations/clash"> <img class="card-img-top" src="/pictures/clash.jpg" style="width:250px; height:150px;" alt="Card image cap"> </a>
+          <div class="card-body">
+            <h5 class="card-title"> <strong> Clash Api </strong></h5>
+            <p class="card-text"> Integración con los datos de los trofeos de la api de clash royale. Se ha usado el tipo de gráfico "Blox plot" de plotlyjs</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="h-25 d-inline-block" style="width: 280px; background-color: #FEE4FA">
+
+        <div class="card" >
+          <a href="https://personal-sos1718.herokuapp.com/#!/integrations/beers"> <img class="card-img-top" src="/pictures/pyramidChart.png" style="width:250px; height:150px;" alt="Card image cap"> </a>
+          <div class="card-body">
+            <h5 class="card-title"> <strong>Beers api </strong> </h5>
+            <p class="card-text">Integración con los datos de los diferentes tipos de cerveza. Se ha usado el tipo Pyramid Charts de Amcharts js</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="h-25 d-inline-block" style="width: 280px;">
+
+        <div class="card" style="background-color:#F7F6F2">
+          <a href="https://personal-sos1718.herokuapp.com/#!/integrations/rape-stats/rgraph"> <img class="card-img-top" src="/pictures/gantt.jpg" style="width:250px; height:150px;" alt="Card image cap"> </a>
+          <div class="card-body">
+            <h5 class="card-title"> <strong> Gantt </strong></h5>
+            <p class="card-text">Visualización de los datos del front-end usando el tipo de gráfica Gantt de la biblioteca RGraph</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+
+      </div>
+
+
     </div>
-    <h5>-----------------------------------------</h5>
+
+    <br>
 
 
+
+    <div class="card-deck">
+      <div class="h-25 d-inline-block" style="width: 280px; background-color: rgba(0,0,255,.1)">
+
+        <div class="card">
+          <a href="https://personal-sos1718.herokuapp.com/#!/integrations/proxyRD"> <img class="card-img-top" src="/pictures/Highcharts2.jpg" style="width:250px; height:150px;" alt="Card image cap"> </a>
+          <div class="card-body">
+            <h5 class="card-title"> <strong> Highcharts </strong></h5>
+            <p class="card-text">Integración mediante el uso de un <strong>proxy</strong> con los datos de la api de un compañero de clase</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-25 d-inline-block" style="width: 280px;">
+
+        <div class="card" style="background-color:#F7F6F2">
+          <a href="https://personal-sos1718.herokuapp.com/#!/integrations/normalRW"> <img class="card-img-top" src="/pictures/amcharts.png" style="width:250px; height:150px;" alt="Card image cap"> </a>
+          <div class="card-body">
+            <h5 class="card-title"> <strong> Amcharts js </strong></h5>
+            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+      <div class="h-25 d-inline-block" style="width: 280px; background-color: rgba(0,0,255,.1)">
+
+        <div class="card">
+          <img class="card-img-top" src="/pictures/ghibli.jpg" style="width:250px; height:150px;" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+
+      </div>
+
+
+
+      <div class="h-25 d-inline-block" style="width: 280px; ">
+
+        <div class="card" style="background-color:#F7F6F2">
+          <img class="card-img-top" src="/pictures/progweb.png" style="width:250px; height:150px;" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="h-25 d-inline-block" style="width: 280px; background-color: rgba(0,0,255,.1)">
+
+        <div class="card">
+          <img class="card-img-top" src="/pictures/ghibli.jpg" style="width:250px; height:150px;" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="h-25 d-inline-block" style="width: 280px; background-color: rgba(0,0,255,.1)">
+
+        <div class="card">
+          <img class="card-img-top" src="/pictures/rgraph.png" style="width:250px; height:150px;" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+
+
+  </div>
 
 
 

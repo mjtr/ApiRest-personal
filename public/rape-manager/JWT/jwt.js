@@ -1,3 +1,5 @@
+//Utilizacion de json web token. 
+
 var jwt //= require("jsonwebtoken");
 var user;
 var mongoClient = require("mongodb").MongoClient;
@@ -32,7 +34,7 @@ module.exports.postLoginData = (request, response) => {
 
 /******CONECTAR CON LA BASE DE DATOS******/
 
-mongoClient.connect(mongoURL, { native_parser: true }, (error, database) => {
+mongoClient.connect(mongoURL, { useNewUrlParser: true }, (error, database) => {
 
     if (error) {
         console.log("No se puede usar la base de datos " + error);
@@ -296,7 +298,7 @@ module.exports.getTokenSingleDataNameYear = (request, response) => {
 
 };
 
-//GET a un recurso por nombre o año 
+//GET a un recurso por nombre o año
 
 module.exports.getTokenData = (request, response) => {
 

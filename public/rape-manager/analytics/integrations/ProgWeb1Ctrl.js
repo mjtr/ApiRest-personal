@@ -1,5 +1,5 @@
 /*global angular*/
-/*global Highcharts*/
+/*global RGraph*/
 
 angular
     .module("managerApp")
@@ -7,14 +7,12 @@ angular
 
 
         //Variables de mi API
-
-
         var rapes = [];
-        
         //Variables api seleccionada 
-        var category = [];
-        var center = [];
-
+        var allData = [];
+        var names = [];
+        var aux = [];
+        var datastring = [];
 
         $http
             .get("https://api.mapbox.com/geocoding/v5/mapbox.places/Spain.json?country=us&access_token=pk.eyJ1IjoibWp0ciIsImEiOiJjajNhOTBicWgwMDNqMzhsdzBsZ3JpNzExIn0.jbbfuU8l2LplqSooVeLlHQ")
@@ -24,13 +22,22 @@ angular
 
                 for (var i = 0; i < 5; i++) {
                     var x = response.data.features[i];
-                    category.push(x.properties.category);
-                    console.log(category);
-                    center.push(Number(x.center[0]));
-                    center.push(Number(x.center[1]));
+                    //category.push(x.properties.category);
+                    console.log(x)
+                    if (Number(x.center[0]) >= 0) {
+                        allData.push(Number(x.center[0]))
+                        datastring.push(String(x.center[0]));
+                    }
+                    if (Number(x.center[1]) >= 0) {
+                        allData.push(Number(x.center[1]))
+                        names.push(String(x.text));
+                        datastring.push(String(x.center[1]));
 
-                    console.log(center);
+                    }
+
+
                 }
+                console.log(allData);
 
                 $http
                     .get("/api/v2/rape-stats")
@@ -38,51 +45,32 @@ angular
 
                         for (var i = 0; i < response.data.length; i++) {
                             var y = response.data[i];
-                 
-                            rapes.push(Number(y["number-of-rape"])/100);
+                            if (!aux.includes(y.country)) {
+                                allData.push(Number(y["number-of-rape"]) / 100)
+                                rapes.push(Number(y["number-of-rape"]) / 100);
+                                datastring.push(String(y["number-of-rape"] / 100))
+                                names.push(y.country);
+                                aux.push(y.country);
 
-                            console.log(y.country);
+                            }
+
 
                         }
 
-                        Highcharts.chart('rape&progweb', {
+                        console.log(allData);
+                        console.log(names)
+                        new RGraph.SVG.Pie({
+                            id: 'progweb1',
+                            data: allData,
+                            options: {
+                                tooltipsEvent: 'mousemove',
+                                highlightStyle: 'outline',
+                                labelsSticksHlength: 50,
+                                tooltips: datastring,
+                                key: names
+                            }
+                        }).draw();
 
-                            title: {
-                                text: 'rape and Center Spain map coordinates compare'
-                            },
-
-                            subtitle: {
-                                text: ''
-                            },
-
-                            yAxis: {
-                                title: {
-                                    text: 'Number of data'
-                                }
-                            },
-                            legend: {
-                                layout: 'vertical',
-                                align: 'right',
-                                verticalAlign: 'middle'
-                            },
-                            plotOptions: {
-                                line: {
-                                    dataLabels: {
-                                        enabled: false
-                                    },
-                                    enableMouseTracking: true
-                                }
-                            },
-
-                            series: [{
-                                name: 'Features Center',
-                                data: center
-                            }, {
-                                name: 'number of rapes',
-                                data: rapes
-                            }]
-
-                        });
 
                     });
 

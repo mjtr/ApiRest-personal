@@ -7,7 +7,7 @@ var db = null;
 
 /******CONECTAR CON LA BASE DE DATOS******/
 
-mongoClient.connect(mongoURL, { native_parser: true }, (error, database) => {
+mongoClient.connect(mongoURL, { useNewUrlParser: true }, (error, database) => {
 
     if (error) {
         console.log("No se puede usar la base de datos " + error);
@@ -185,8 +185,8 @@ module.exports.getAllData = (request, response) => {
         response.sendStatus(500);
 
     else {
-        
-   
+
+
 
         if (!limit || !offset || limit == null || offset == null)
             recorreDatos(response, from, to, pais, fromIncidence, toIncidence, fromRate, toRate, fromTotal, toTotal);
@@ -194,7 +194,7 @@ module.exports.getAllData = (request, response) => {
         else
             recorreDatosLimitOffset(response, parseInt(limit), parseInt(offset), from, to,
                 pais, fromIncidence, toIncidence, fromRate, toRate, fromTotal, toTotal);
-    
+
 }
 };
 
@@ -237,7 +237,7 @@ module.exports.getSingleDataNameYear = (request, response) => {
 
 };
 
-//GET a un recurso por nombre o año 
+//GET a un recurso por nombre o año
 
 module.exports.getData = (request, response) => {
 
@@ -300,7 +300,7 @@ module.exports.postDataGroup = (request, response) => {
     var parametros = request.body;
     var conflicto = [];
 
-    if (!parametros || parametros == null) 
+    if (!parametros || parametros == null)
         response.sendStatus(400);
 
     else {
@@ -321,7 +321,7 @@ module.exports.postDataGroup = (request, response) => {
                         return conflicto.push(x);
                     });
 
-                    if (conflicto.length != 0) 
+                    if (conflicto.length != 0)
                         response.sendStatus(409);
 
                     else {
@@ -750,7 +750,7 @@ var busquedaPorcentaje = function(response, fromRate, toRate) {
                         return res.push(x);
                     });
                     if (res.length == 0)
-                        response.send([]); 
+                        response.send([]);
                     else
                         response.send(res);
                 }

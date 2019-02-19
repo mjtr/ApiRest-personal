@@ -8,7 +8,7 @@ var apikey = "sos1718-12";
 
 /******CONECTAR CON LA BASE DE DATOS******/
 
-mongoClient.connect(mongoURL, { native_parser: true }, (error, database) => {
+mongoClient.connect(mongoURL, { useNewUrlParser: true }, (error, database) => {
 
     if (error) {
         console.log("No se puede usar la base de datos " + error);
@@ -268,7 +268,7 @@ module.exports.getSingleDataNameYear = (request, response) => {
     }
 };
 
-//GET a un recurso por nombre o año 
+//GET a un recurso por nombre o año
 
 module.exports.getData = (request, response) => {
 
@@ -1053,7 +1053,7 @@ var busquedaPorcentajePag = function(response, fromRate, toRate, limit, offset) 
         response.send(404);
     }
     else {
-        
+
         db.find({}).skip(offset).limit(limit).toArray((error, data) => {
             if (error)
                 response.sendStatus(500);

@@ -2,29 +2,187 @@
 <html>
 
 <head>
+  <title>Home</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-    <title>Personal API REST</title>
-    <h1></h1>
 
 </head>
 
 <body>
-    <ul>
-      <h3>Manuel Jesus (Data: rape-stats) </h3>
-                <ul>
-                    <li>Information : I will analyze data on the number of people that they suffered a rape in the EU. </li>
-                    <li><a href=https://github.com/mjtr>GitHub personal</a></li>
-                    <li><a href=https://personal-sos1718.herokuapp.com/api/v2/rape-stats> API Manuel </a></li>
-                    <li> <a href="https://personal-sos1718.herokuapp.com/#!/api/v2/rape-stats">Rape Front-End</a> </li>
-                    <li><a href="https://personal-sos1718.herokuapp.com/#!/integrations">Rape analytics</a></li>
 
-                </ul>
 
-        <li>
-            <h3></h3> <a href="https://personal-sos1718.herokuapp.com/api/v1/rape-stats/loadInitialData">Load Initial Data</a></li>
-        <li>
 
-    </ul>
+  <nav>
+    <div class="nav-wrapper">
+      <ul id="nav" class="left hide-on-med-and-down">
+        <li><a href="#">
+            <h3>Home</h3>
+          </a></li>
+        <li><a href="https://personal-sos1718.herokuapp.com/#!/api/v2/rape-stats">
+            <h3>Front-end</h3>
+          </a></li>
+        <li><a href="https://personal-sos1718.herokuapp.com/#!/analytics">
+            <h3>Graphs</h3>
+          </a></li>
+        <li><a href="https://documenter.getpostman.com/view/360397/collection/RVu1GWFS">
+            <h3>Docs</h3>
+          </a></li>
+          <li><a href="https://personal-sos1718.herokuapp.com/#!/contacto">
+              <h3>Contacto</h3>
+            </a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <div class="jumbotron">
+
+    <div class="container text-center">
+      <h1 style="color:#FEB1FC"> Sobre la API REST:   </h1>
+      <p> Las integraciones de los diferentes datos
+      </p>
+
+      <br>
+      <br>
+      <br>
+
+      <div class="divider">
+
+      </div>
+      <h2>Funcionamiento de la aplicación:</h2>
+      <br>
+      <img src="/pictures/funcionamiento.png"  class="pull-left img-responsive" style="width:650px; height:350px" ; alt="">
+<img src="/pictures/apirest.jpg" class="pull-right img-responsive" style="width:450px; height:150px; ">
+<p>Esquema simplificado</p>
+
+    </div>
+
+  </div>
+
+
+  <hr>
+  <div>
+
+    <div class="container-fluid bg-3 text-center">
+      <h2>Para este trabajo he utilizado:</h2><br>
+
+      <div class="container">
+
+
+
+        <ul class="list-unstyled">
+          <li class="media" style="background-color:#F4F2F7">
+            <img class="mr-3" src="/pictures/node_logo.png" style="width:150px; height:150px" alt="Generic placeholder image" />
+
+            <div class="media-body">
+              <br>
+              <p> </p>
+              <h3 class="mt-0 mb-1">Nodejs</h3>
+              <h4>Para el apartado del back-end, junto con paquetes como Express, body-parser, path... Todo para el tratamiento de los datos </h4>
+            </div>
+          </li>
+
+          <li class="media" style="background-color:#F7F6F2">
+
+            <img class="mr-3" src="/pictures/angular.png" style="width:150px; height:150px" alt="Generic placeholder image">
+            <div class="media-body">
+              <br>
+              <p> </p>
+
+              <h3 class="mt-0 mb-1">AngularJs</h3>
+              <h4>Para el Front-end y las distintas vistas (usando angular-route para ello)</h4>
+
+            </div>
+          </li>
+
+          <li class="media" style="background-color:#F4F2F7">
+            <img class="mr-3" src="/pictures/javascript.png" style="width:150px; height:150px" alt="Generic placeholder image">
+            <div class="media-body">
+              <br>
+              <p> </p>
+              <h3 class="mt-0 mb-1">JavaScript</h3>
+              <h4>Tanto en el Front-end como en el Back-end</h4>
+
+            </div>
+          </li>
+
+          <li class="media" style="background-color:#F7F6F2">
+            <img class="mr-3" src="/pictures/mongodb.png" style="width:150px; height:150px" alt="Generic placeholder image">
+            <div class="media-body">
+              <br>
+              <p> </p>
+              <h3 class="mt-0 mb-1">MongoDB</h3>
+              <h4>Como base de datos para la aplicación desarrollada</h4>
+
+            </div>
+
+          </li>
+
+
+          <li class="media" style="background-color:#F4F2F7">
+            <img class="mr-3" src="/pictures/bootstrap-logo.png" style="width:150px; height:150px" alt="Generic placeholder image">
+            <div class="media-body">
+              <br>
+              <p> </p>
+              <h3 class="mt-0 mb-1">BootsTrap</h3>
+              <h4>Para algunos elementos estéticos, tales como botones/tablas...</h4>
+
+            </div>
+          </li>
+
+          <li class="media" style="background-color:#F7F6F2">
+            <img class="mr-3" src="/pictures/materialize.png" style="width:150px; height:150px" alt="Generic placeholder image">
+            <div class="media-body">
+              <br>
+              <p> </p>
+              <h3 class="mt-0 mb-1">Materialize</h3>
+              <h4>Igual que bootstrap, para que la aplicación tenga un diseño visual más atractivo. El menú principal está hecho utilizando Materialize por ejemplo </h4>
+
+            </div>
+          </li>
+
+          <li class="media" style="background-color:#F4F2F7">
+            <img class="mr-3" src="/pictures/postManLogo.png" style="width:150px; height:150px" alt="Generic placeholder image">
+            <div class="media-body">
+              <br>
+              <p> </p>
+              <h3 class="mt-0 mb-1">POSTMAN</h3>
+              <h4>Para la realización de tests sobre la api rest (get, post, put, delete y búsquedas principalmente). En el apartado "Docs" del menú principal podemos ver con más detalle dichos tests </h4>
+
+            </div>
+          </li>
+
+          <li class="media" style="background-color:#F7F6F2">
+            <img class="mr-3" src="/pictures/protactorLogo.png" style="width:150px; height:150px" alt="Generic placeholder image">
+            <div class="media-body">
+              <br>
+              <p> </p>
+              <h3 class="mt-0 mb-1">Protactorjs</h3>
+              <h4>Pequeños test sobre la interfaz de la api para comprobar su correcto funcionamiento. En GitHub, los tests se encuentran dentro de la carpeta "test" </h4>
+
+            </div>
+          </li>
+
+
+
+        </ul>
+
+
+      </div>
+    </div>
+
+
+  </div>
+<div style="background-color:#E8E2E7">
+
+  <footer class="container-fluid text-center">
+    <p> <strong> Realizado por Manuel Jesús Torres Rincón </strong></p>
+  </footer>
+
+  </div>
 
 </body>
 

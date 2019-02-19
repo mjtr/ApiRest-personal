@@ -12,19 +12,27 @@ app.use("/", express.static(path.join(__dirname, "public")));
 app.use(bodyParser.json());
 
 app.listen(port, () => {
-    console.log("Magic is happening in port " + port);
+  console.log("Magic is happening in port " + port);
 }).on("error", (e) => {
-    console.log("Server can noy be started " + e);
-    process.exit(1);
+  console.log("Server can noy be started " + e);
+  process.exit(1);
 });
 
 /******PROXY*******/
 
 var apiServerHostDivorce = "https://sos1718-08.herokuapp.com/api/v1/divorces-an";
+var hostClash = "http://www.clashapi.xyz/api/arenas";
 
-app.use("/proxyDivorce", (req, res) => {
+app.use("/proxyDivorce", (req, res) =>{
 
-    var url = apiServerHostDivorce + req.url;
+    var url = apiServerHostDivorce + req.url ;
+
+    req.pipe(request(url)).pipe(res);
+});
+
+app.use("/proxyClash", (req, res) =>{
+
+    var url = hostClash + req.url ;
 
     req.pipe(request(url)).pipe(res);
 });
@@ -32,7 +40,7 @@ app.use("/proxyDivorce", (req, res) => {
 
 app.get("/api/v1/rape-stats/docs", (req, res) => {
 
-    res.redirect("https://documenter.getpostman.com/view/360397/collection/RVu1GWFS");
+  res.redirect("https://documenter.getpostman.com/view/360397/collection/RVu1GWFS");
 
 
 });
@@ -192,21 +200,20 @@ app.delete("/api/jwt/rape-stats" + "/:name/:year", verifyToken, rjwt.deleteToken
 // Authorization: Bearer <access_token>
 // Verify Token
 function verifyToken(req, res, next) {
-    // Get auth header value
-    var bearerHeader = req.headers['authorization'];
-    // Check if bearer is undefined
-    if (typeof bearerHeader !== 'undefined') {
-        // Split at the space
-        var bearer = bearerHeader.split(',');
-        // Get token from array
-        var bearerToken = bearer[1];
-        // Set the token
-        req.token = bearerToken;
-        // Next middleware
-        next();
-    }
-    else {
-        // Forbidden
-        res.sendStatus(403);
-    }
+  // Get auth header value
+  var bearerHeader = req.headers['authorization'];
+  // Check if bearer is undefined
+  if (typeof bearerHeader !== 'undefined') {
+    // Split at the space
+    var bearer = bearerHeader.split(',');
+    // Get token from array
+    var bearerToken = bearer[1];
+    // Set the token
+    req.token = bearerToken;
+    // Next middleware
+    next();
+  } else {
+    // Forbidden
+    res.sendStatus(403);
+  }
 }

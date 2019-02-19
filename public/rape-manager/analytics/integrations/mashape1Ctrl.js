@@ -1,16 +1,22 @@
 /*global angular*/
-/*global RGraph*/
+/*global google*/
 
 angular
     .module("managerApp")
     .controller("mashape1Ctrl", ["$http", "$scope", function($http, $scope) {
 
         //Variables de mi API
-        var totalRape = 0;
+        var country = [];
+        var rapes = [];
+        var rates = [];
+        var total = [];
 
         //Variables de la API a integrar zipf
         var perMillion1;
         var perMillion2;
+        var zipf1;
+        var zipf2;
+
 
         var url = 'https://wordsapiv1.p.mashape.com/words/ok/frequency';
         var url2 = 'https://wordsapiv1.p.mashape.com/words/death/frequency';
@@ -41,7 +47,7 @@ angular
                 var y = response.data;
                 console.log(y);
                 perMillion1 = y.frequency.perMillion;
-
+                zipf1 = y.frequency.zipf;
             });
 
         $http
@@ -50,10 +56,16 @@ angular
 
                 for (var i = 0; i < response.data.length; i++) {
                     var x = response.data[i];
-                    totalRape = totalRape + Number(x["number-of-rape"] / 100);
+                    country.push(x.country);
+                    rates.push(x.rate);
+                    rapes.push(parseFloat(x["number-of-rape"] / 10));
+                    total.push(parseFloat(x["total-since-two-thousand"] / 100));
+
                 }
 
             });
+
+
 
         $http(mashape2)
             .then(function(response) {
@@ -61,39 +73,44 @@ angular
                 var k = response.data;
 
                 perMillion2 = k.frequency.perMillion;
+                zipf2 = k.frequency.zipf;
 
-                console.log(perMillion1);
+                google.charts.load('current', { 'packages': ['corechart'] });
+                google.charts.setOnLoadCallback(drawChart);
 
-                new RGraph.Bar({
-                    id: 'mashape1',
-                    data: [
-                        [perMillion1, perMillion2, totalRape]
-                    ],
-                    options: {
-                        textAccessible: true,
-                        variant: '3d',
-                        variantThreedAngle: 0.3,
-                        strokestyle: 'rgba(0,0,0,0)',
-                        colors: ['Gradient(#fbb:red)', 'Gradient(#bfb:green)', 'Gradient(#bbf:blue)'],
-                        gutterTop: 5,
-                        gutterLeft: 5,
-                        gutterRight: 15,
-                        gutterBottom: 50,
-                        labels: ['Numbers of use words and number of rapes'],
-                        shadowColor: '#ccc',
-                        shadowOffsetx: 3,
-                        backgroundGridColor: '#eee',
-                        scaleZerostart: true,
-                        axisColor: '#ddd',
-                        unitsPost: '',
-                        title: 'Numbers of authors and rapes % compare',
-                        key: ['OK word usage per million ', 'death word usage per million', 'total rapes *100 '],
-                        keyShadow: true,
-                        keyShadowColor: '#ccc',
-                        keyShadowOffsety: 0,
-                        keyShadowOffsetx: 3,
-                        keyShadowBlur: 15
-                    }
-                }).draw();
+                function drawChart() {
+                    var data = google.visualization.arrayToDataTable([
+                        [country[0], rapes[0], rapes[0], rates[0], rates[0]],
+                        [country[4], total[4], total[4], rapes[4], rapes[4]],
+                        [country[2], rapes[1], rapes[1], total[1], total[1]],
+                        [country[6], rapes[6], rapes[6], total[6], total[6]],
+                        [country[8], total[8], total[8], rapes[8], rapes[8]],
+                        [country[10], total[10], total[10], rapes[10], rapes[10]],
+                        ["ok", perMillion1, perMillion1, zipf1, zipf1],
+                        ["death", zipf2, zipf2, perMillion2, perMillion2]
+
+
+                        // Treat the first row as data.
+                    ], true);
+
+                    var options = {
+                        legend: 'none',
+                        bar: { groupWidth: '100%' }, // Remove space between bars.
+                        candlestick: {
+                            fallingColor: { strokeWidth: 0, fill: '#a52714' }, // red
+                            risingColor: { strokeWidth: 0, fill: '#0f9d58' } // green
+                        }
+                    };
+
+                    var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+                    chart.draw(data, options);
+                }
+
+
+
+
+
+
+
             });
     }]);
